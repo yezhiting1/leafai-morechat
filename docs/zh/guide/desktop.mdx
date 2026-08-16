@@ -1,0 +1,55 @@
+---
+title: 桌面客户端
+description: 下载并使用 CowAgent 桌面客户端（macOS / Windows）
+---
+
+CowAgent 提供开箱即用的桌面客户端，内置 Agent 运行环境，**无需手动安装 Python 或依赖**，下载安装后即可在本地运行你的超级 AI 助理。
+
+<Frame caption="直接操作浏览器、终端和文件系统，具备长期记忆、个人知识库与自主进化能力，全部在本地运行。">
+  <video controls preload="metadata" playsInline className="w-full rounded-xl" src="https://cdn.link-ai.tech/desktop/video/cow-demo-zh-v1.mp4" />
+</Frame>
+
+## 下载安装
+
+<Card title="前往下载页" icon="download" href="https://cowagent.ai/zh/download/">
+  下载 macOS / Windows 客户端安装包
+</Card>
+
+<Tabs>
+  <Tab title="macOS">
+    1. 打开 [下载页](https://cowagent.ai/zh/download/)，根据芯片选择安装包：
+       - Apple Silicon（M1/M2/M3/M4）：下载 `arm64` 版本
+       - Intel 芯片：下载 `x64` 版本
+    2. 打开下载的 `.dmg`，将 CowAgent 拖入「应用程序」文件夹。
+    3. 从启动台或应用程序中打开 CowAgent 即可。
+  </Tab>
+  <Tab title="Windows">
+    1. 打开 [下载页](https://cowagent.ai/zh/download/)，下载 Windows 安装包（`.exe`）。
+    2. 双击运行安装程序，按提示完成安装（可自定义安装目录）。
+    3. 从桌面或开始菜单打开 CowAgent 即可。
+  </Tab>
+</Tabs>
+
+## 自动更新
+
+桌面客户端内置自动更新能力。有新版本时会自动检测并提示，你也可以在应用左下角菜单中手动「检查更新」，一键下载并重启完成升级。
+
+## 与命令行部署的区别
+
+- **桌面客户端**：适合个人用户开箱即用，无需安装任何依赖，图形界面操作，支持自动更新。
+- **命令行部署**：源码运行方式，适合开发者在本地或服务器部署，方便扩展功能，可定制性更强，详见 [一键安装](/zh/guide/quick-start)。
+
+## 通过浏览器访问
+
+桌面客户端启动后会在本机监听 `9876` 端口，其后端与 Web 控制台完全一致。因此在打开客户端的同时，也可以直接用浏览器访问 `http://localhost:9876`，获得与客户端界面一致的完整体验。
+
+如果该端口不可用（例如 Windows 上被 Hyper-V/WSL2 保留），客户端会自动改用其它端口并正常启动。此时实际端口可在 `run.log` 中的 `Local access` 一行查到，也可以在 `config.json` 中设置 `web_port` 来指定固定端口。
+
+## 本地数据存储
+
+桌面客户端的所有数据都保存在本机：
+
+- **配置文件**：位于用户目录下的 `~/.cow`，包含 `config.json`（模型密钥、通道等配置）以及日志、缓存等运行数据。
+- **工作空间**：默认位于 `~/cow`，用于存放对话记录、知识库、记忆、技能、定时任务等 Agent 产生的文件。
+
+卸载客户端不会自动删除这两个目录，重装后数据依然保留。如需彻底清理或迁移到其他设备，手动备份或删除对应目录即可。

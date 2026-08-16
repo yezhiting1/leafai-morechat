@@ -1,0 +1,71 @@
+---
+title: v2.1.6
+description: CowAgent 2.1.6：新增子 Agent，支持推理强度配置，记忆向量库可插拔，桌面客户端优化
+---
+
+🌐 [English](https://docs.cowagent.ai/releases/v2.1.6) | [中文](https://docs.cowagent.ai/zh/releases/v2.1.6)
+
+## 🤝 子 Agent
+
+主 Agent 支持把多个独立任务分配给子 Agent 执行，可提升任务执行效果、降低上下文成本、提高并行执行速度：
+
+- **独立上下文**：中间过程不占用主对话上下文，节约 token，让模型注意力更集中。
+- **并行执行**：一次可创建多个子 Agent 同时执行，全部完成后由主 Agent 汇总，Web 与桌面端均支持查看详细过程
+- **支持自定义**：内置 `general-purpose` 与 `explore` 两种类型，可在工作空间 `subagents/` 下用 `.md` 文件自定义 subagent 类型，限定系统提示词与可用工具。
+- **默认启用**：无需配置，由主 Agent 自行判断是否创建；可在「配置 → Agent 配置」中开关，并在 `config.json` 中调整嵌套层数、并行数与超时。
+
+<img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent-assets@main/screenshots/zh/cow-subagent-demo.png" width="800" />
+
+相关文档：[子 Agent](https://docs.cowagent.ai/zh/multi-agent/subagent)
+
+## 🖥 桌面客户端
+
+- **定时任务通知**：客户端可接收定时任务与主动推送的消息，弹出系统通知。
+- **更新面板**：更新弹窗中新增发布说明链接，直接查看本次变更。
+- **自定义厂商模型**：为自定义厂商提供自由填写的模型输入框。
+- **启动问题优化**：修复客户端启动阻塞的问题，增加自动端口重试及错误提示
+
+下载地址：[CowAgent客户端](https://cowagent.ai/zh/download/)
+
+相关文档：[桌面客户端](https://docs.cowagent.ai/zh/guide/desktop)
+
+## 🧠 推理强度与思考过程
+
+- **推理强度配置**：支持推理强度（reasoning_effort）原生配置，覆盖 Claude、Qwen、Kimi 等模型。Thanks @tshicheng (#3007, #3009)
+- **Claude 思考过程**：Claude 模型的思考过程可在 Web 与桌面端展示，便于观察模型的推理链路。
+
+## 🔒 安全加固
+
+- **自进化增加校验**：对无人值守下的写入增加校验与回滚，按工作空间串行化写入，收窄受保护的写入路径，避免误伤工作空间中的任务文件。Thanks @lisheng-SenLee (#3011, #3016)
+- **技能路径校验**：技能安装完善文件路径校验。Thanks @LHMQ878 (#3006)
+- **依赖升级**：桌面端升级 js-yaml、linkify-it，修复两处可被利用的拒绝服务漏洞。Thanks @anupamme
+
+## 💾 记忆与检索
+
+- **向量库支持可插拔拓展**：记忆的向量存储与检索抽象为统一接口，SQLite 作为默认实现，便于后续外部向量库的接入。Thanks @AaronZ345 (#3021)
+- **索引修复**：修复分片更新时 trigram FTS5 索引损坏的问题，共享库损坏时可自我修复。
+
+相关文档：[记忆管理](https://docs.cowagent.ai/zh/memory)
+
+
+## 🛠 体验优化与修复
+
+- 图片生成支持自定义厂商，支持凭据的实时刷新与删除清理。Thanks @AaronZ345 (#3022)
+- **SSE 可靠重连**：Web 端补全 SSE 生命周期，网络中断后可携带事件回放重连，减少长任务下的消息丢失。Thanks @lisheng-SenLee (#3014)
+- **推理链路展示**：修复推理模式下工具卡片、文件链接与图片展示相关的若干问题。
+- **限流重试**：LLM 触发限流时对退避时长设置上限，避免长时间等待。Thanks @tim-korso (#3018)
+- **定时任务静默**：无内容可汇报时，定时任务不再发送空消息。 Thanks @kowkowhuang (#3001)
+- **服务停止时间**：修复无法接受当日结束时刻（如 23:59）作为服务停止时间的问题。Thanks @Iams4kura (#3020)
+- **域名协议解析**：修复 WEBSITES_DOMAIN 中显式指定的 http/https 协议未被遵循的问题。Thanks @6vision (#3015)
+- **微信媒体收发**：修复个人微信通道 发送图片、文件等媒体时 因网络问题导致无法收发的问题，优化图像识别逻辑。
+- **飞书通道**：修复投递延迟的新消息被丢弃的问题。
+- **Telegram**：修复 Markdown 渲染，避免长总结丢弃文件的问题。
+- **文件回复**：修复带文件回复时文本与其余附件被一并丢弃、以及工具文件链接影响客户端工具卡片的问题。
+- **Docker**：安装 tzdata，使 `TZ` 环境变量正确生效。
+
+## 📦 升级方式
+
+- **源码部署**：执行 `cow update` 一键升级，或手动拉取代码后重启。详见 [更新升级文档](https://docs.cowagent.ai/zh/guide/upgrade)。
+- **桌面客户端**：可在客户端内自动检查并一键更新，或前往 [下载页](https://cowagent.ai/zh/download/) 获取最新版本。
+
+**发布日期**：2026.08.12 | [Full Changelog](https://github.com/zhayujie/CowAgent/compare/2.1.5...2.1.6)

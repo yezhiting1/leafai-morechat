@@ -1,0 +1,76 @@
+---
+title: v2.1.3
+description: CowAgent 2.1.3：正式推出桌面客户端（macOS / Windows），知识库文档管理增强，新增 MCP 工具按需检索，繁体中文支持，模型支持，并带来安全与体验的多项改进
+---
+
+🌐 [English](https://docs.cowagent.ai/releases/v2.1.3) | [中文](https://docs.cowagent.ai/zh/releases/v2.1.3)
+
+## 🖥 桌面客户端
+
+正式推出 **CowAgent 桌面客户端**，支持 **macOS 与 Windows**，让本地超级 AI 助理真正做到开箱即用。
+
+下载地址：[CowAgent客户端](https://cowagent.ai/zh/download/)
+
+<img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent-assets@main/screenshots/zh/desktop-chat-demo-zh.png" alt="CowAgent 桌面客户端" />
+
+核心特性：
+
+- **开箱即用**：内置完整的 Agent 运行环境，安装后直接启动，无需安装 Python 等依赖
+- **完整对话体验**：流式对话、会话管理、工具调用步骤展示、Markdown 渲染，并支持发送与展示图片 / 视频 / 文件
+- **可视化管理**：配置管理、模型配置、知识库、定时任务、技能系统、记忆等页面与 Web 控制台对齐，在原生界面即可管理
+- **通道接入**：支持在客户端内扫码接入各类消息通道
+- **自动更新**：支持版本自动检查与一键更新，优化不同地区的下载速度
+- **原生体验**：首次启动引导、跟随系统语言、平台自适应的窗口交互
+
+相关文档：[桌面客户端](https://docs.cowagent.ai/zh/guide/desktop)
+
+## 📚 知识库
+
+- **文档创建与导入**：知识库支持在界面直接新建文档、导入外部文档。
+- **索引自动维护**：根据真实目录树自动重建 `knowledge/index.md` 索引文件，避免索引漂移或丢失文档
+- **向量模型修复**：知识库索引同步复用统一的嵌入厂商，确保生成向量而非退化为关键词检索
+
+Thanks @yangziyu-hhh
+
+相关文档：[知识库](https://docs.cowagent.ai/zh/memory/knowledge)
+
+## 🔌 MCP 工具智能检索
+
+针对接入大量 MCP 工具时上下文膨胀的问题，新增 **按需工具检索** 能力，通过 RAG 向量检索按需加载与当前任务相关的 MCP 工具，减少无关工具对上下文的占用。Thanks @fengyl07
+
+相关文档：[MCP 工具](https://docs.cowagent.ai/zh/tools/mcp)
+
+## 🌏 繁体中文支持
+
+Web 控制台、日志与文档新增 **繁体中文（zh-Hant）** 支持，界面语言可跟随系统或手动切换。Thanks @anomixer (#2935)
+
+## 🤖 模型新增
+
+- 新增支持 **claude-sonnet-5**、**claude-fable-5** 
+- 新增支持 **doubao-seed-2-1-pro**、**doubao-seed-2-1-turbo**
+
+相关文档：[模型概览](https://docs.cowagent.ai/zh/models)
+
+
+## 🔒 安全加固
+
+- **敏感文件读取防护**：加固对凭证等敏感文件的访问，防止绕过读取。Thanks @fengyl07 (#2913)
+- **浏览器访问防护**：浏览器访问网页时拦截指向内网及云服务器内部地址的请求，降低被诱导访问内部服务的风险。Thanks @Jiangrong-W
+- **配置解析加固**：使用更安全的方式解析配置内容，避免潜在的代码执行风险。Thanks @shunfeng8421
+
+## 🛠 体验优化与修复
+
+- **自定义供应商扩展**：嵌入与视觉模型支持配置自定义供应商；同时修复记忆查询在 Windows 下的问题。Thanks @HnBigVolibear
+- **文件编辑更稳**：编辑文件时更好地保留原有缩进，且模糊匹配时不改动未涉及的内容。Thanks @weijun-xia (#2942)
+- **命令输出乱码修复**：修复执行命令产生大量输出时可能出现的中文乱码。Thanks @weijun-xia (#2941)
+- **Azure OpenAI 修复**：修复 Azure OpenAI 的流式输出与相关配置问题。Thanks @Tunnello
+- **企业微信智能机器人**：补充 webhook（回调）模式的接入文档。Thanks @6vision
+- **深度梦境开关**：新增 `deep_dream_enabled` 配置开关，可按需开启或关闭深度梦境。
+- **稳定性提升**：优化 Web 服务的连接回收，并修复自主进化过程中的若干问题 (#2924, #2904)
+
+## 📦 升级方式
+
+- **桌面客户端**：前往 [下载页](https://cowagent.ai/zh/download/) 获取最新版本。
+- **源码部署**：执行 `cow update` 一键升级，或手动拉取代码后重启。详见 [更新升级文档](https://docs.cowagent.ai/zh/guide/upgrade)。
+
+**发布日期**：2026.07.08 | [Full Changelog](https://github.com/zhayujie/CowAgent/compare/2.1.2...2.1.3)

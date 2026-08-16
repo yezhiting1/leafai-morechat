@@ -1,0 +1,73 @@
+---
+title: search_files - 文件搜索
+description: 在文件内容中按正则搜索，或按文件名查找文件
+---
+
+在工作空间中搜索文件。一个工具回答两个问题：**文件里写了什么**（按正则搜内容）和**文件在哪**（按文件名查找），由 `target` 参数区分。
+
+Agent 会优先使用本工具，而不是在终端里执行 `grep` / `find`，因为本工具输出结构化结果、自动跳过依赖目录、并且在 Windows 上同样可用。
+
+## 依赖
+
+无额外依赖，默认可用。若系统中装有 [ripgrep](https://github.com/BurntSushi/ripgrep)（`rg`）会自动使用，搜索更快。
+
+## 参数
+
+| 参数 | 类型 | 必填 | 说明 |
+| --- | --- | --- | --- |
+| `pattern` | string | 是 | `target=content` 时为正则表达式；`target=files` 时为文件名通配符，如 `*.py` |
+| `target` | string | 否 | `content` 搜文件内容（默认）；`files` 按文件名查找文件 |
+| `path` | string | 否 | 搜索起点，默认工作空间根目录，相对路径基于工作空间 |
+| `file_glob` | string | 否 | 限定搜索哪些文件，如 `*.py`、`*.{ts,tsx}`，默认全部（仅 `target=content` 有效） |
+| `output_mode` | string | 否 | `content` 返回匹配行（默认）、`files` 只返回文件路径、`count` 返回每个文件的匹配数 |
+| `ignore_case` | boolean | 否 | 忽略大小写，默认 false |
+| `no_ignore` | boolean | 否 | 搜索被默认排除的内容，默认 false，见下方「默认排除的目录」 |
+| `max_results` | integer | 否 | 最多返回多少条结果，默认 50，上限 500 |
+
+## 搜索内容
+
+默认模式，返回每个匹配所在的文件、行号和该行内容：
+
+```json
+{
+  "matches": [
+    { "file": "channel/wechat_channel.py", "line": 42, "match": "def handle_message(self, msg):" }
+  ],
+  "match_count": 1
+}
+```
+
+只想知道哪些文件命中、不需要具体行时，用 `output_mode=files` 可以显著减少输出量。
+
+## 查找文件
+
+`target=files` 时 `pattern` 按**文件名**匹配，结果按修改时间**从新到旧**排列——同名文件有多个时，刚改过的那个通常就是要找的：
+
+```json
+{
+  "files": ["websites/ai-news-report.md", "archive/ai-news-report.md"],
+  "match_count": 2
+}
+```
+
+只写一个词（不含 `*`、`?`）时会自动按「包含」匹配，例如 `ai-news` 等价于 `*ai-news*`，不必记全文件名。
+
+<Note>
+  按文件名找文件必须用 `target=files`。用内容搜索找 `report.md` 只会找到**提到**这个名字的文件，而不是文件本身。
+</Note>
+
+## 默认排除的目录
+
+以下目录始终跳过，避免搜索结果被依赖和构建产物淹没：
+
+`.git`、`node_modules`、`__pycache__`、`.venv`、`venv`、`.mypy_cache`、`.pytest_cache`、`dist`、`build`、`.next`、`target`、`vendor`、`.tox`、`coverage`、`.idea`。
+
+此外，若系统装有 ripgrep，`.gitignore` 中忽略的文件也会被跳过。
+
+确实需要搜索这些目录时（例如排查第三方依赖的源码），设置 `no_ignore=true` 可以同时解除上述两类排除。当搜索无结果、且恰好跳过了这类目录时，返回结果中会附带 `notice` 说明跳过了哪些目录。
+
+## 使用场景
+
+- 定位某个函数、配置项、报错信息在代码库中的位置
+- 按文件名找回之前生成的文档、报告、网页
+- 统计某个写法在项目中出现了多少次

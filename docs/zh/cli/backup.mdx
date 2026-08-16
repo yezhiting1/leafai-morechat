@@ -1,0 +1,45 @@
+---
+title: 备份与恢复
+description: 导出和恢复 CowAgent 配置及 Agent 工作区数据
+---
+
+CowAgent 可以生成便携的本地归档，用于设备迁移或灾难恢复。
+
+## 创建备份
+
+```bash
+cow backup
+cow backup --output /safe/location/cow-backup.zip
+```
+
+归档包含：
+
+- `config.json`
+- `AGENT.md`、`USER.md`、`MEMORY.md` 等 Agent 人格和用户文件
+- 工作区内的每日记忆、会话历史、知识库、自定义技能和定时任务
+- 旧版 `user_datas.pkl`（如存在）
+
+临时 `tmp/` 数据、缓存、Git 元数据和符号链接不会写入归档。在操作系统支持的情况下，归档文件权限会限制为仅当前用户可读写。
+
+<Warning>
+  备份中可能含有 API 密钥、对话历史及其他个人数据，应按密钥文件保存和传输。ZIP 文件本身没有加密。
+</Warning>
+
+## 恢复备份
+
+恢复前先停止 CowAgent：
+
+```bash
+cow stop
+cow restore /safe/location/cow-backup.zip
+```
+
+迁移到不同工作区时，可以显式指定路径：
+
+```bash
+cow restore cow-backup.zip --workspace ~/cow-restored
+```
+
+恢复命令会在写入前校验归档格式和所有路径。它会覆盖同名文件，但不会删除目标目录中无关的现有文件。如果检测到当前 CowAgent 数据，会先在所选归档旁创建 `cow-pre-restore-*.zip` 回滚备份。
+
+无人值守脚本可传入 `--yes` 确认覆盖。

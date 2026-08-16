@@ -1,0 +1,66 @@
+---
+title: Claude
+description: Anthropic Claude 模型配置（文本对话 + 图像理解）
+---
+
+Claude 由 Anthropic 提供，支持文本对话与图像理解，主流 Sonnet / Opus 模型均原生支持视觉，无需额外指定 Vision 模型。
+
+<Tip>
+  通过 Web 控制台的「模型管理」页面可一站式配置以下全部能力，无需手动改配置文件。
+</Tip>
+
+## 文本对话
+
+```json
+{
+  "model": "claude-opus-5",
+  "claude_api_key": "YOUR_API_KEY"
+}
+```
+
+| 参数 | 说明 |
+| --- | --- |
+| `model` | 支持 `claude-opus-5`、`claude-sonnet-5`、`claude-fable-5`、`claude-opus-4-8`、`claude-opus-4-7`、`claude-sonnet-4-6`、`claude-opus-4-6`、`claude-sonnet-4-5`、`claude-sonnet-4-0`、`claude-3-5-sonnet-latest` 等，参考 [官方模型](https://docs.anthropic.com/en/docs/about-claude/models/overview) |
+| `claude_api_key` | 在 [Claude 控制台](https://console.anthropic.com/settings/keys) 创建 |
+| `claude_api_base` | 可选，默认为 `https://api.anthropic.com/v1`，可改为第三方代理 |
+
+### 模型选择
+
+| 模型 | 适用场景 |
+| --- | --- |
+| `claude-opus-5` | 最新旗舰，默认推荐模型，复杂推理与长链路 Agent 任务效果最佳 |
+| `claude-sonnet-5` | Claude 5 系列均衡款，推理效果与成本平衡，价格更低 |
+| `claude-fable-5` | Claude 5 系列的另一款旗舰模型 |
+| `claude-opus-4-8` | 上一代 Opus 旗舰 |
+| `claude-opus-4-7` | 更早的 Opus 旗舰 |
+| `claude-sonnet-4-6` | 性价比与速度平衡，成本更低 |
+| `claude-opus-4-6` / `claude-sonnet-4-5` / `claude-sonnet-4-0` | 更早的旗舰，价格更低 |
+
+## 思考模式
+
+通过全局配置 `enable_thinking` 控制，也可在 web控制台 - 配置页面中切换。开启后 Web 控制台会展示思考过程：
+
+```json
+{
+  "enable_thinking": true,
+  "reasoning_effort": "high"
+}
+```
+
+`reasoning_effort` 控制思考强度（对应 Anthropic 的 `output_config.effort`），取值 `low` / `medium` / `high` / `xhigh` / `max`，具体支持范围随模型而定，仅在 `enable_thinking` 为 `true` 时生效。
+
+## 图像理解
+
+配置 `claude_api_key` 后 Agent 的 Vision 工具会自动使用 Claude 主模型识别图像，无需额外配置。
+
+如需手动指定 Vision 模型，可在配置文件中显式配置：
+
+```json
+{
+  "tools": {
+    "vision": {
+      "model": "claude-sonnet-5"
+    }
+  }
+}
+```
