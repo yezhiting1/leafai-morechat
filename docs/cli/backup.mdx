@@ -1,0 +1,51 @@
+---
+title: Backup and Restore
+description: Export and restore CowAgent configuration and agent workspace data
+---
+
+CowAgent can create a portable local archive for migration or disaster recovery.
+
+## Create a backup
+
+```bash
+cow backup
+cow backup --output /safe/location/cow-backup.zip
+```
+
+The archive contains:
+
+- `config.json`
+- Agent persona and user files such as `AGENT.md`, `USER.md`, and `MEMORY.md`
+- Daily memory, session history, knowledge, custom skills, and scheduled tasks in the configured workspace
+- Legacy `user_datas.pkl`, when present
+
+Transient `tmp/` data, caches, Git metadata, and symbolic links are skipped. The
+archive is written with owner-only permissions where the operating system
+supports them.
+
+<Warning>
+  A backup may contain API keys, conversation history, and other personal data.
+  Store and transfer it as a secret. The ZIP file is not encrypted.
+</Warning>
+
+## Restore a backup
+
+Stop CowAgent before restoring:
+
+```bash
+cow stop
+cow restore /safe/location/cow-backup.zip
+```
+
+Use `--workspace` to migrate workspace files to a different location:
+
+```bash
+cow restore cow-backup.zip --workspace ~/cow-restored
+```
+
+Restore validates the archive format and paths before writing anything. It
+overwrites matching files but does not delete unrelated files already present
+at the destination. When current CowAgent data exists, the command first
+creates a `cow-pre-restore-*.zip` rollback archive beside the selected backup.
+
+For unattended scripts, pass `--yes` to acknowledge overwrites.
