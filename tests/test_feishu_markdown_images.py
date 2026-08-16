@@ -1,0 +1,151 @@
+import socket
+
+import pytest
+
+from channel.feishu import feishu_static_card
+
+
+class FakeResponse:
+    def __init__(self, status_code=200, headers=None, chunks=None):
+        self.status_code = status_code
+        self.headers = headers or {}
+        self._chunks = chunks or []
+        self.closed = False
+
+    def iter_content(self, chunk_size=8192):
+        yield from self._chunks
+
+    def close(self):
+        self.closed = True
+
+    def json(self):
+        return getattr(self, "json_body", {})
+
+
+def test_remote_markdown_images_are_uploaded_once_and_replaced_with_image_keys():
+    calls = []
+
+    def upload(url):
+        calls.append(url)
+        return "img_v2_chart"
+
+    markdown = (
+        "Before\n![chart](https://cdn.example.com/chart.png)\n"
+        "Again ![same](https://cdn.example.com/chart.png)"
+    )
+
+    result = feishu_static_card.resolve_markdown_images(markdown, upload)
+
+    assert result == (
+        "Before\n![chart](img_v2_chart)\nAgain ![same](img_v2_chart)"
+    )
+    assert calls == ["https://cdn.example.com/chart.png"]
+
+
+def test_existing_feishu_image_keys_and_regular_links_are_untouched():
+    def unexpected(_url):
+        raise AssertionError("uploader should not be called")
+
+    markdown = "![ready](img_v2_existing) [docs](https://example.com/docs)"
+
+    assert feishu_static_card.resolve_markdown_images(markdown, unexpected) == markdown
+
+
+def test_failed_remote_image_upload_degrades_to_readable_alt_text():
+    markdown = "Result: ![latency chart](https://cdn.example.com/chart.png)"
+
+    result = feishu_static_card.resolve_markdown_images(markdown, lambda _url: None)
+
+    assert result == "Result: [Image unavailable: latency chart]"
+
+
+@pytest.mark.parametrize(
+    "url",
+    [
+        "http://127.0.0.1/image.png",
+        "http://169.254.169.254/latest/meta-data",
+        "http://[::1]/image.png",
+    ],
+)
+def test_public_image_guard_rejects_non_public_literal_addresses(url):
+    with pytest.raises(ValueError, match="non-public"):
+        feishu_static_card.validate_public_image_url(url)
+
+
+def test_image_download_revalidates_redirect_targets(monkeypatch):
+    monkeypatch.setattr(
+        socket,
+        "getaddrinfo",
+        lambda *args, **kwargs: [
+            (socket.AF_INET, socket.SOCK_STREAM, 6, "", ("93.184.216.34", 0))
+        ],
+    )
+    redirect = FakeResponse(
+        status_code=302,
+        headers={"Location": "http://127.0.0.1/private.png"},
+    )
+
+    with pytest.raises(ValueError, match="non-public"):
+        feishu_static_card.download_public_image(
+            "https://example.com/image.png", get=lambda *args, **kwargs: redirect
+        )
+
+    assert redirect.closed is True
+
+
+def test_image_download_enforces_content_type_and_size(monkeypatch):
+    monkeypatch.setattr(
+        socket,
+        "getaddrinfo",
+        lambda *args, **kwargs: [
+            (socket.AF_INET, socket.SOCK_STREAM, 6, "", ("93.184.216.34", 0))
+        ],
+    )
+    not_image = FakeResponse(
+        headers={"Content-Type": "text/html"},
+        chunks=[b"not an image"],
+    )
+    too_large = FakeResponse(
+        headers={"Content-Type": "image/png", "Content-Length": "11"},
+        chunks=[b"01234567890"],
+    )
+
+    with pytest.raises(ValueError, match="not an image"):
+        feishu_static_card.download_public_image(
+            "https://example.com/image.png", get=lambda *args, **kwargs: not_image
+        )
+    with pytest.raises(ValueError, match="too large"):
+        feishu_static_card.download_public_image(
+            "https://example.com/image.png",
+            get=lambda *args, **kwargs: too_large,
+            max_bytes=10,
+        )
+
+
+def test_public_image_is_uploaded_to_feishu_without_a_temp_file(monkeypatch):
+    monkeypatch.setattr(
+        feishu_static_card,
+        "download_public_image",
+        lambda _url: (b"png-bytes", "image/png"),
+    )
+    response = FakeResponse()
+    response.json_body = {
+        "code": 0,
+        "data": {"image_key": "img_v2_uploaded"},
+    }
+    calls = []
+
+    def post(url, **kwargs):
+        calls.append((url, kwargs))
+        return response
+
+    image_key = feishu_static_card.upload_public_image_to_feishu(
+        "https://example.com/image.png", "tenant-token", post=post
+    )
+
+    assert image_key == "img_v2_uploaded"
+    assert calls[0][1]["headers"] == {"Authorization": "Bearer tenant-token"}
+    filename, payload, content_type = calls[0][1]["files"]["image"]
+    assert filename == "markdown-image.png"
+    assert payload == b"png-bytes"
+    assert content_type == "image/png"
