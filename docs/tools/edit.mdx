@@ -1,0 +1,39 @@
+---
+title: edit - File Edit
+description: Edit files via precise text replacement
+---
+
+Edit files via precise text replacement. Unlike `write`, which replaces the whole file, `edit` only sends the part being changed - faster, and less likely to disturb the rest of the file, so prefer it when modifying an existing file. If `oldText` is empty, appends to the end of the file.
+
+## Dependencies
+
+No extra dependencies, available by default.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `path` | string | Yes | File path |
+| `oldText` | string | Yes | Original text to replace, must match the file exactly including whitespace (empty to append) |
+| `newText` | string | Yes | Replacement text |
+| `replaceAll` | boolean | No | Replace every occurrence, default false |
+
+By default `oldText` must be **unique** in the file: if it occurs more than once the edit fails and asks for more surrounding context, so the wrong spot is not changed. Set `replaceAll=true` when every occurrence really should be replaced.
+
+<Note>
+  Each line returned by `read` carries a line-number prefix like `12|`. Those are display aids, not file content - do not include them in `oldText` / `newText`.
+</Note>
+
+## Safety checks
+
+A few checks run before writing, and report back in the result:
+
+- **Modified elsewhere**: if the file changed after the Agent last read it, the result carries a warning so another program's changes are not silently overwritten.
+- **Syntax check**: if the edited content is JSON / YAML / TOML and fails to parse, the write is **refused** and the file is left untouched - these formats are corrupt when half-written. Source files (`.py`, for example) only warn, and only when this edit introduced a new syntax error.
+- **Credential protection**: `~/.cow/.env`, which holds API keys, cannot be modified through this tool. Use the `env_config` tool instead.
+
+## Use Cases
+
+- Modify specific parameters in configuration files
+- Fix bugs in code
+- Insert content at specific positions in files

@@ -1,0 +1,73 @@
+---
+title: search_files - File Search
+description: Search inside files by regex, or find files by name
+---
+
+Search files in the workspace. One tool answers two questions: **what is written in the files** (regex search inside contents) and **where is that file** (match by file name), selected with the `target` parameter.
+
+The Agent prefers this tool over running `grep` / `find` in the terminal: it returns structured results, skips dependency directories automatically, and works the same on Windows.
+
+## Dependencies
+
+No extra dependencies, available by default. If [ripgrep](https://github.com/BurntSushi/ripgrep) (`rg`) is installed it is used automatically for faster searches.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `pattern` | string | Yes | A regex when `target=content`; a file-name glob such as `*.py` when `target=files` |
+| `target` | string | No | `content` searches inside files (default); `files` finds files by name |
+| `path` | string | No | Where to start, defaults to the workspace root; relative paths are based on the workspace |
+| `file_glob` | string | No | Limit which files are searched, e.g. `*.py`, `*.{ts,tsx}`; defaults to all (`target=content` only) |
+| `output_mode` | string | No | `content` returns matching lines (default), `files` returns only file paths, `count` returns matches per file |
+| `ignore_case` | boolean | No | Case-insensitive match, default false |
+| `no_ignore` | boolean | No | Search content that is excluded by default, default false; see "Excluded directories" below |
+| `max_results` | integer | No | Maximum results to return, default 50, capped at 500 |
+
+## Searching contents
+
+The default mode. Returns the file, line number and line text for each match:
+
+```json
+{
+  "matches": [
+    { "file": "channel/wechat_channel.py", "line": 42, "match": "def handle_message(self, msg):" }
+  ],
+  "match_count": 1
+}
+```
+
+When you only need to know which files matched, `output_mode=files` cuts the output down substantially.
+
+## Finding files
+
+With `target=files`, `pattern` is matched against the **file name**, and results are ordered **most-recently-modified first** - when several files match, the one just worked on is usually the one wanted:
+
+```json
+{
+  "files": ["websites/ai-news-report.md", "archive/ai-news-report.md"],
+  "match_count": 2
+}
+```
+
+A bare word (no `*` or `?`) is treated as a contains-match, so `ai-news` is equivalent to `*ai-news*` and you do not need to recall the full name.
+
+<Note>
+  Finding a file by name requires `target=files`. A content search for `report.md` only finds files that **mention** that name, not the file itself.
+</Note>
+
+## Excluded directories
+
+These directories are always skipped so results are not drowned out by dependencies and build output:
+
+`.git`, `node_modules`, `__pycache__`, `.venv`, `venv`, `.mypy_cache`, `.pytest_cache`, `dist`, `build`, `.next`, `target`, `vendor`, `.tox`, `coverage`, `.idea`.
+
+In addition, files ignored by `.gitignore` are skipped when ripgrep is installed.
+
+When you do need to search them (inspecting third-party sources, for example), `no_ignore=true` lifts both kinds of exclusion at once. If a search returns nothing and such a directory happened to be skipped, the result carries a `notice` naming which ones.
+
+## Use Cases
+
+- Locate a function, config key or error message in the codebase
+- Find a document, report or web page generated earlier, by name
+- Count how many times a pattern occurs in the project

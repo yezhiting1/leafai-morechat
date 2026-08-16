@@ -1,0 +1,39 @@
+---
+title: ls - Directory List
+description: List directory contents
+---
+
+List the contents of **a single directory**, sorted alphabetically, directories suffixed with `/`, includes hidden files.
+
+## Dependencies
+
+No extra dependencies, available by default.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `path` | string | No | Directory path, defaults to the workspace root; relative paths are based on workspace directory |
+| `limit` | integer | No | Maximum entries to return, default 500 |
+
+## Example output
+
+```
+__init__.py
+__pycache__/
+credentials.py
+diff.py
+file_state.py
+```
+
+Output is truncated beyond 500 entries or 50KB.
+
+<Note>
+  `ls` looks at one level only, answering "what is in this directory". To find a file recursively across directories, use [`search_files`](/tools/search-files) with `target=files`.
+</Note>
+
+## Use Cases
+
+- Browse project structure
+- Check whether a directory exists and what is in it
+- See what is already alongside a file before writing

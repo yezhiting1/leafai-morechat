@@ -1,0 +1,47 @@
+---
+title: read - File Read
+description: Read file content
+---
+
+Read file content. Supports text files, PDF, Office documents (Word / Excel / PPT), images (returns metadata), and more.
+
+## Dependencies
+
+No extra dependencies, available by default.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `path` | string | Yes | File path, relative paths are based on workspace directory |
+| `offset` | integer | No | Start line number (1-indexed), negative values read from the end, e.g. `-50` for the last 50 lines |
+| `limit` | integer | No | Number of lines to read |
+| `pages` | string | No | PDF only: page range such as `3`, `1-5`, `10-`. Defaults to the first 20 pages, at most 20 pages per call |
+
+## Output format
+
+Each line is prefixed with its line number and a pipe, so the Agent can locate positions and so output matches `search_files`:
+
+```
+1|from config import conf
+2|
+3|def main():
+4|    print(conf())
+```
+
+<Note>
+  The line numbers are display aids, not file content. When editing with `edit`, do not include prefixes like `1|` in `oldText` / `newText` - they will be rejected.
+</Note>
+
+A single read is capped at 2000 lines or 50KB; beyond that the output is truncated and ends with a hint on using `offset` to continue.
+
+## Credential protection
+
+`~/.cow/.env`, which holds API keys, cannot be read through this tool. Use the `env_config` tool instead.
+
+## Use Cases
+
+- View configuration files, log files
+- Read code files for analysis
+- Extract text from PDF, Word and Excel files
+- Check image/video file info

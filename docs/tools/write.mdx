@@ -1,0 +1,33 @@
+---
+title: write - File Write
+description: Create or overwrite files
+---
+
+Write content to a file. Creates the file if it doesn't exist, overwrites the whole file if it does. Automatically creates parent directories.
+
+Prefer `edit` when modifying an existing file - it only sends the text being changed. Use `write` for new files and complete rewrites.
+
+## Dependencies
+
+No extra dependencies, available by default.
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `path` | string | Yes | File path |
+| `content` | string | Yes | Content to write |
+
+## Safety checks
+
+A few checks run before writing, and report back in the result:
+
+- **Modified elsewhere**: if the file changed after the Agent last read it, the result carries a warning so another program's changes are not silently overwritten.
+- **Syntax check**: if the content is JSON / YAML / TOML and fails to parse, the write is **refused** and the file is left untouched - these formats are corrupt when half-written, and this also catches truncated model output. Source files (`.py`, for example) only warn, and only when this write introduced a new syntax error.
+- **Credential protection**: `~/.cow/.env`, which holds API keys, cannot be written through this tool. Use the `env_config` tool instead.
+
+## Use Cases
+
+- Create new code files or scripts
+- Generate configuration files
+- Save processing results
