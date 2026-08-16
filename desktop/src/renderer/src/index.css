@@ -1,0 +1,455 @@
+@import './highlight.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Design tokens — semantic CSS variables driving both themes.
+   Components reference these via Tailwind semantic classes
+   (bg-surface, text-primary, border-default, etc.), so theme
+   switching only swaps variable values, never component code.
+   ============================================================ */
+
+:root {
+  /* Brand accent (CowAgent green), used sparingly */
+  --accent: #4abe6e;
+  --accent-hover: #35a85b;
+  --accent-active: #228547;
+  --accent-soft: rgba(74, 190, 110, 0.12);
+  --accent-contrast: #ffffff;
+
+  /* User message bubble (defaults to solid accent; themes may override) */
+  --bubble-user-bg: var(--accent);
+  --bubble-user-text: #ffffff;
+
+  /* Status colors */
+  --success: #4abe6e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --danger-soft: rgba(239, 68, 68, 0.1);
+  --danger-border: rgba(239, 68, 68, 0.3);
+  --info: #3b82f6;
+
+  /* Light theme — aligned with the web console: gray surfaces/borders + slate text */
+  --bg-base: #f9fafb;        /* app background (gray-50) */
+  --bg-surface: #ffffff;     /* panels, cards */
+  --bg-surface-2: #f3f4f6;   /* nested surfaces, hover fills (gray-100) */
+  --bg-elevated: #ffffff;    /* popovers, menus, modals */
+  --bg-inset: #f3f4f6;       /* inputs, code blocks (gray-100) */
+
+  --text-primary: #1e293b;   /* headings, primary text (slate-800) */
+  --text-secondary: #475569; /* body, labels (slate-600) */
+  --text-tertiary: #64748b;  /* hints, captions (slate-500) */
+  --text-disabled: #94a3b8;  /* slate-400 */
+
+  --border-default: #e5e7eb; /* gray-200 (web console border) */
+  --border-strong: #d1d5db;  /* gray-300 */
+  --border-subtle: #f3f4f6;  /* gray-100 */
+
+  --overlay: rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+
+  /* Chat-specific tokens (AI-Native UI) */
+  --ai-bubble-bg: transparent;
+  --message-gap: 16px;
+
+  /* Shape tokens — themable (radius / fonts). Kept as variables so a
+     theme can reshape the whole UI without touching components. */
+  --radius-card: 12px;
+  --radius-btn: 8px;
+  --radius-sm: 6px;
+  --font-sans: 'Inter', system-ui, -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* Wallpaper layer — empty by default (solid theme). A theme sets these
+     to render an ambient background image behind the app. */
+  --wallpaper-image: none;
+  --wallpaper-position: 50% 50%;
+  --wallpaper-overlay: rgba(255, 255, 255, 0);
+  /* Panel fill used by .glass surfaces; opaque by default so non-glass
+     themes look identical to today. */
+  --glass-fill: var(--bg-surface);
+  --glass-blur: 0px;
+  /* 1 = fully opaque surfaces (default). A glass wallpaper theme lowers this
+     so bg-surface panels turn translucent and reveal the wallpaper. */
+  --surface-alpha: 1;
+
+  color-scheme: light;
+}
+
+.dark {
+  /* Dark theme — layered greys instead of harsh pure black */
+  --bg-base: #0e0e10;
+  --bg-surface: #161618;
+  --bg-surface-2: #1c1c1f;
+  --bg-elevated: #1f1f23;
+  --bg-inset: #161618;
+
+  --text-primary: #f4f4f5;     /* contrast > 7:1 on bg-base */
+  --text-secondary: #c4c4cc;
+  --text-tertiary: #8e8e96;
+  --text-disabled: #5a5a62;
+
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+
+  --accent-contrast: #0e0e10;
+
+  --overlay: rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.5);
+
+  color-scheme: dark;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+/* ============================================================
+   Wallpaper layer — ambient background behind the whole app.
+   Rendered as a fixed pseudo-element so it never scrolls and
+   sits under all content. Invisible unless a theme sets
+   --wallpaper-image (default 'none').
+   ============================================================ */
+#root {
+  position: relative;
+  isolation: isolate;
+}
+
+body[data-wallpaper='on']::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--wallpaper-image);
+  background-size: cover;
+  background-position: var(--wallpaper-position);
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Scrim over the wallpaper to keep foreground readable. */
+body[data-wallpaper='on']::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--wallpaper-overlay);
+  pointer-events: none;
+}
+
+/* When a wallpaper is active, let the app base show it through. The three
+   structural panels use bg-base; make that fill translucent so the ambient
+   image reads behind the UI. Surfaces/cards stay controlled by their own
+   tokens (or .glass) for readability. Zero component changes needed. */
+body[data-wallpaper='on'] {
+  background: transparent;
+}
+
+body[data-wallpaper='on'] .bg-base {
+  background-color: color-mix(in srgb, var(--bg-base) 45%, transparent);
+}
+
+/* Glass mode (wallpaper + glass theme): turn the common surface panels
+   translucent + blurred so the wallpaper reads behind the whole UI, with a
+   subtle top border-highlight for a premium, layered material feel. All via
+   CSS only — components keep using bg-surface / bg-elevated unchanged. */
+body[data-wallpaper='on'] .bg-surface,
+body[data-wallpaper='on'] .bg-elevated {
+  background-color: color-mix(in srgb, var(--bg-surface) calc(var(--surface-alpha) * 100%), transparent);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+}
+
+/* Slightly brighten default borders over a wallpaper so panels keep clean
+   edges against the artwork. Kept subtle — no inset shadows on every bordered
+   element (that would look noisy on inputs/dividers). */
+body[data-wallpaper='on'] .border-default {
+  border-color: color-mix(in srgb, var(--border-default) 78%, rgba(255, 255, 255, 0.12));
+}
+
+/* ---- New-chat home page under a wallpaper ------------------------
+   When a wallpaper is active, the empty chat home keeps its original
+   centered layout; the suggestion cards just get a premium frosted-glass
+   treatment so they read cleanly over the artwork. Only the empty state. */
+body[data-wallpaper='on'] .chat-home .bg-surface {
+  background-color: color-mix(in srgb, var(--bg-surface) calc(var(--surface-alpha) * 100%), transparent);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Frosted-glass panel: translucent fill + blur so the wallpaper shows
+   through. Opt-in via the .glass class; a theme toggles the fill/blur
+   variables. Falls back to a solid surface when glass is off. */
+.glass {
+  background: var(--glass-fill);
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.4);
+}
+
+/* Smooth theme transition (respect reduced motion) */
+body,
+body * {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ============================================================
+   Scrollbar — thin, low-key, theme-aware
+   ============================================================ */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+  background-clip: padding-box;
+}
+
+/* Windows scrollbars are slightly wider/more visible */
+.platform-win ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* ============================================================
+   Titlebar drag regions (frameless window)
+   ============================================================ */
+
+.titlebar-drag {
+  -webkit-app-region: drag;
+}
+
+.titlebar-no-drag {
+  -webkit-app-region: no-drag;
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* AI typing indicator — 3-dot pulse */
+@keyframes typingPulse {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--text-tertiary);
+  animation: typingPulse 1.4s infinite ease-in-out both;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.16s; }
+.typing-dot:nth-child(3) { animation-delay: 0.32s; }
+
+/* Smooth content reveal */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-reveal {
+  animation: fadeInUp 0.25s ease both;
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-surface-2) 25%,
+    var(--border-subtle) 50%,
+    var(--bg-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* ============================================================
+   Markdown content (assistant messages, memory/knowledge viewers)
+   ============================================================ */
+
+.msg-content > *:first-child { margin-top: 0; }
+.msg-content > *:last-child { margin-bottom: 0; }
+.msg-content p { margin: 0.5em 0; line-height: 1.7; }
+.msg-content ul, .msg-content ol { padding-left: 1.4em; margin: 0.5em 0; }
+.msg-content li { margin: 0.25em 0; }
+.msg-content h1, .msg-content h2, .msg-content h3, .msg-content h4 {
+  font-weight: 600;
+  margin: 0.8em 0 0.4em;
+  color: var(--text-primary);
+}
+.msg-content h1 { font-size: 1.4em; }
+.msg-content h2 { font-size: 1.25em; }
+.msg-content h3 { font-size: 1.1em; }
+
+.msg-content a { color: var(--accent); text-decoration: none; }
+.msg-content a:hover { text-decoration: underline; }
+
+/* Links to workspace files: opened in the preview panel, not the OS browser. */
+.msg-content a.ws-link {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+
+.msg-content blockquote {
+  padding-left: 0.9em;
+  margin: 0.6em 0;
+  border-left: 3px solid var(--accent);
+  color: var(--text-secondary);
+}
+
+.msg-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.8em 0;
+  font-size: 0.9em;
+}
+.msg-content th, .msg-content td {
+  border: 1px solid var(--border-default);
+  padding: 0.4em 0.7em;
+  text-align: left;
+}
+.msg-content th { background: var(--bg-surface-2); font-weight: 600; }
+
+.msg-content hr { border: none; border-top: 1px solid var(--border-default); margin: 1em 0; }
+
+/* Inline code */
+.msg-content :not(pre) > code {
+  padding: 0.12em 0.4em;
+  border-radius: 5px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-subtle);
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  font-size: 0.85em;
+}
+
+/* Fenced code blocks */
+.msg-content .code-block-wrapper {
+  margin: 0.7em 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  background: var(--bg-inset);
+}
+.msg-content .code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 10px 5px 12px;
+  background: var(--bg-surface-2);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.msg-content .code-block-lang {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+}
+.msg-content .code-copy-btn {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 5px;
+  transition: color 0.15s, background 0.15s;
+}
+.msg-content .code-copy-btn:hover { color: var(--text-secondary); background: var(--bg-inset); }
+.msg-content .code-copy-btn.copied { color: var(--accent); }
+.msg-content .code-block-wrapper pre {
+  margin: 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  background: transparent;
+}
+.msg-content .code-block-wrapper pre code,
+.msg-content pre code.hljs {
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.6;
+  background: transparent;
+  padding: 0;
+}

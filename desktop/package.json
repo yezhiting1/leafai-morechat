@@ -1,0 +1,118 @@
+{
+  "name": "cowagent-desktop",
+  "version": "2.1.6",
+  "description": "CowAgent Desktop Client - AI Agent on your desktop",
+  "main": "dist/main/index.js",
+  "author": "CowAgent",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npm run build && electron .",
+    "dev:hot": "concurrently \"npm run dev:renderer\" \"sleep 2 && npm run dev:main\"",
+    "dev:main": "tsc -p tsconfig.main.json && electron .",
+    "dev:renderer": "vite",
+    "build": "npm run build:renderer && npm run build:main",
+    "build:main": "tsc -p tsconfig.main.json",
+    "build:renderer": "vite build",
+    "dist": "npm run build && electron-builder",
+    "dist:mac": "npm run build && electron-builder --mac",
+    "dist:win": "npm run build && electron-builder --win",
+    "flavor:apply": "node scripts/apply-flavor.mjs",
+    "flavor:clear": "node scripts/apply-flavor.mjs --clear",
+    "dist:flavor": "node scripts/apply-flavor.mjs $FLAVOR && npm run build && electron-builder && node scripts/apply-flavor.mjs --clear"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9",
+    "highlight.js": "^11.11.1",
+    "lucide-react": "^1.21.0",
+    "markdown-it": "^14.2.0",
+    "png-to-ico": "^3.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3"
+  },
+  "build": {
+    "appId": "com.cowagent.desktop",
+    "productName": "CowAgent",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "resources/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "build/dist/cowagent-backend",
+        "to": "backend/cowagent-backend"
+      },
+      {
+        "from": "resources",
+        "to": ".",
+        "filter": [
+          "icon.png",
+          "app-config.json",
+          "themes/**"
+        ]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "icon": "resources/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "notarize": false,
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "Used for voice input in chat: record a short clip and transcribe it via the configured speech recognition provider."
+      },
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "icon": "resources/icon.ico",
+      "artifactName": "${productName}-Setup-${version}-${arch}.${ext}",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "publish": {
+      "provider": "generic",
+      "url": "https://cowagent.ai/update/"
+    }
+  },
+  "overrides": {
+    "js-yaml": "4.3.1",
+    "linkify-it": "5.0.2"
+  }
+}
