@@ -1,0 +1,66 @@
+---
+title: Claude
+description: Anthropic Claude model configuration (Text Chat + Image Understanding)
+---
+
+Claude is provided by Anthropic and supports both text chat and image understanding. The mainstream Sonnet / Opus models natively support vision, so no separate Vision model needs to be specified.
+
+<Tip>
+  All capabilities below can be configured in one place via the "Model Management" page in the Web Console, with no need to manually edit the configuration file.
+</Tip>
+
+## Text Chat
+
+```json
+{
+  "model": "claude-opus-5",
+  "claude_api_key": "YOUR_API_KEY"
+}
+```
+
+| Parameter | Description |
+| --- | --- |
+| `model` | Supports `claude-opus-5`, `claude-sonnet-5`, `claude-fable-5`, `claude-opus-4-8`, `claude-opus-4-7`, `claude-sonnet-4-6`, `claude-opus-4-6`, `claude-sonnet-4-5`, `claude-sonnet-4-0`, `claude-3-5-sonnet-latest`, etc. See [official models](https://docs.anthropic.com/en/docs/about-claude/models/overview) |
+| `claude_api_key` | Create one in the [Claude Console](https://console.anthropic.com/settings/keys) |
+| `claude_api_base` | Optional, defaults to `https://api.anthropic.com/v1`. Can be changed to a third-party proxy |
+
+### Model Selection
+
+| Model | Use Case |
+| --- | --- |
+| `claude-opus-5` | Latest flagship; default recommendation, best on complex reasoning and long-running Agent tasks |
+| `claude-sonnet-5` | Balanced option in the Claude 5 family; good reasoning quality at a lower price |
+| `claude-fable-5` | Alternative flagship in the Claude 5 family |
+| `claude-opus-4-8` | Previous Opus flagship |
+| `claude-opus-4-7` | Earlier Opus flagship |
+| `claude-sonnet-4-6` | Balanced cost and speed, lower cost |
+| `claude-opus-4-6` / `claude-sonnet-4-5` / `claude-sonnet-4-0` | Earlier flagships at a lower price |
+
+## Thinking Mode
+
+Controlled by the global `enable_thinking` setting, which can also be toggled on the Web Console configuration page. When enabled, the Web Console shows the thinking process:
+
+```json
+{
+  "enable_thinking": true,
+  "reasoning_effort": "high"
+}
+```
+
+`reasoning_effort` sets the thinking intensity (mapped to Anthropic's `output_config.effort`) and accepts `low` / `medium` / `high` / `xhigh` / `max`, with the supported range depending on the model. It only takes effect when `enable_thinking` is `true`.
+
+## Image Understanding
+
+Once `claude_api_key` is configured, the Agent's Vision tool automatically uses the Claude main model to recognize images, with no extra setup required.
+
+To manually specify a Vision model, set it explicitly in the configuration file:
+
+```json
+{
+  "tools": {
+    "vision": {
+      "model": "claude-sonnet-5"
+    }
+  }
+}
+```

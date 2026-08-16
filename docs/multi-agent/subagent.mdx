@@ -1,0 +1,141 @@
+---
+title: Sub Agent
+description: Delegate self-contained tasks to sub agents, run them in parallel, and get back only the conclusion
+---
+
+A sub agent is a temporary worker the main Agent creates during a conversation. The main Agent hands it one independent task, it completes that task in its own context, and it returns the result. The pages it opened, the files it read and the commands it ran never enter the main conversation.
+
+<Note>
+  Sub agents are temporary. They have no identity, memory or channel of their own, and never appear in the Agent list.
+</Note>
+
+## Two Benefits
+
+- **Isolated context**: intermediate work does not consume the main conversation's context, which saves tokens and keeps the model's attention on what matters
+- **Parallel execution**: several sub agents can run at the same time, so the total time is that of the slowest one
+
+## Inherited and Isolated
+
+A sub agent inherits part of the main Agent's environment, but it is not a copy of it:
+
+| Inherited | Not inherited |
+| --- | --- |
+| Model | Message history of the main conversation |
+| Workspace (files are read and written in the same place) | Persona and rule files (`AGENT.md`, `RULE.md`, `USER.md`) |
+| Skills (types with the full tool set only) | Message-writing to memory (it can read the shared memory / knowledge base, but never persists) |
+
+A sub agent therefore knows only what the main Agent passes to it. It cannot see the conversation and cannot ask the user anything, so every path, identifier, constraint and settled decision it needs must be stated when the task is created.
+
+## When It Is Used
+
+The main Agent decides on its own. There is nothing to configure and no command to run.
+
+**A sub agent is created when:**
+
+- Several unrelated things can be done at the same time, such as "research product A and product B separately"
+- A task produces a lot of intermediate output but only the conclusion is needed, such as "check whether this error has a known fix in the community"
+
+**A sub agent is not created when:**
+
+- The main Agent needs the intermediate results to continue (reading a few files or running a few searches is ordinary work)
+- The task depends on earlier parts of the conversation, or needs the user to confirm something along the way
+- The task should run beyond this conversation, which is what [scheduled tasks](/tools/scheduler) are for
+
+To force delegation, just say so, for example "use sub agents to research these two directions separately".
+
+## What You See
+
+Each sub agent gets its own card in the web console and the desktop app. Expand it to see the tool it is calling and the steps it has taken; once it finishes, the card holds its full report. Sub agents start and finish independently, so it is clear which one is still running.
+
+<Frame>
+  <img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent-assets@main/screenshots/en/cow-subagent-demo.png" style={{ maxWidth: "800px" }} />
+</Frame>
+
+## Built-in Types
+
+Each sub agent is created with a type, which determines its system prompt and the tools it may use:
+
+| Type | Use case | Tools |
+| --- | --- | --- |
+| `general-purpose` | Multi-step work that involves both investigation and action: searching, reading, running commands, writing files | All tools of the main Agent, except the blocked ones |
+| `explore` | Read-only investigation: finding files, searching code or documents, gathering facts from the web | `read`, `ls`, `search_files`, `web_search`, `web_fetch`, `vision`, `memory_search`, `memory_get` |
+
+## Custom Types
+
+Add a `.md` file under `subagents/` in the workspace to define a new type. The format is the same as skills:
+
+```markdown
+---
+name: research-report
+description: Research one topic across many web sources and return a short report with citations. Use when answering would mean opening a lot of pages and only the conclusion matters.
+tools: web_search, web_fetch, read, write
+---
+You are a research assistant. You receive one topic and return one report.
+
+How to work:
+1. Search broadly first, then follow the two or three most promising sources.
+2. Prefer primary sources (official docs, the vendor's pricing page, the original announcement) over articles describing them.
+3. Cross-check every number, date and price against a second source.
+
+Keep the report under 400 words, containing in this order:
+- Answer: two or three sentences that settle the question
+- Findings: bullets, each ending with the source URL
+- Unconfirmed: anything you could not verify from a primary source
+
+Write "not found" where you came up empty. Never fill a gap with a guess.
+```
+
+Fields:
+
+| Field | Description |
+| --- | --- |
+| `name` | Type name |
+| `description` | What the main Agent selects on, so it should say when to use this type rather than what it is |
+| `tools` | Allowed tools. Omit to inherit all tools of the main Agent |
+| Body | The sub agent's system prompt: how to work and what to return |
+
+Restricting `tools` is the most reliable constraint: a type with only `read, ls, search_files` cannot modify anything. A type that lists `tools` does not inherit skills, so omit the field when the type needs them and scope the work in the body instead.
+
+On first start, `README.md` and `example.md.template` are created under `subagents/`. Copy the template to a `.md` file to enable it. Templates are re-read every turn, so a new file takes effect on the next message with no restart.
+
+<Tip>
+  Tool names are matched exactly, so the `tools` allowlist does not cover MCP tools. Omit the field if the type needs them.
+</Tip>
+
+## Blocked Tools
+
+The following tools are unavailable to every sub agent:
+
+| Tool | Reason |
+| --- | --- |
+| `send`, `scheduler` | Act on the user's channel in the main Agent's name, which is outside the scope of one task |
+| `env_config`, `evolution_undo` | Modify the Agent's own configuration |
+| `subagent` | Prevents a type with all tools from recursing. Actual nesting is governed by `max_depth` |
+
+## Configuration
+
+Sub agents are enabled by default. The switch is in "Config → Agent" in the web console and the desktop app, and takes effect on the next turn with no restart. Finer limits are set in `config.json`:
+
+```json
+"subagent": {
+  "enabled": true,
+  "max_depth": 1,
+  "max_concurrent": 3,
+  "timeout_seconds": 300
+}
+```
+
+| Parameter | Description | Default |
+| --- | --- | --- |
+| `enabled` | Whether sub agents are enabled | `true` |
+| `max_depth` | Nesting depth. `1` means only the main Agent may create sub agents | `1` |
+| `max_concurrent` | Maximum sub agents running in parallel per call | `3` |
+| `timeout_seconds` | Time budget for one call, covering all its parallel tasks | `300` |
+
+## Design
+
+- **Context isolation**: a sub agent starts with an empty message history, loads no persona files and has no memory manager. The main conversation keeps only the call and the final conclusion.
+- **Parallel execution**: tasks within one call run on their own threads and share one time budget. Several calls issued in the same turn also start together.
+- **Half the step budget**: a sub agent gets half the main Agent's maximum steps. Its task is already bounded, so it does not need the budget of a whole conversation. When it runs out, it is asked to summarize what it completed.
+- **Traceable timeouts**: a task that times out is cancelled and reported as such. The number of results always matches the number of tasks, so the main Agent can tell "found nothing" from "never finished".
+- **Display separated from context**: the model receives structured data and the user sees a formatted report. Both come from the same result, and the displayed form never enters the model's context.
