@@ -60,14 +60,11 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 
 | 服务商 | 代表模型 | 对话 | 视觉 | 图片生成 | ASR语音识别 | TTS语音合成 | Embedding向量 |
 | --- | --- | :-: | :-: | :-: | :-: | :-: | :-: |
-| [Claude](https://docs.cowagent.ai/models/claude) | claude‑opus‑5 / sonnet‑5 | ✅ | ✅ | | | | |
 | [OpenAI](https://docs.cowagent.ai/models/openai) | gpt‑5.6 系列 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [Gemini](https://docs.cowagent.ai/models/gemini) | gemini‑3.5‑flash | ✅ | ✅ | ✅ | | | |
 | [DeepSeek](https://docs.cowagent.ai/models/deepseek) | deepseek‑v4‑flash / pro | ✅ | | | | | |
-| [Qwen通义千问](https://docs.cowagent.ai/models/qwen) | qwen3.7‑plus | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [GLM智谱](https://docs.cowagent.ai/models/glm) | glm‑5.2, glm‑5v‑turbo | ✅ | ✅ | | ✅ | | ✅ |
 | [Doubao豆包](https://docs.cowagent.ai/models/doubao) | doubao‑seed‑2.1 系列 | ✅ | ✅ | ✅ | | | ✅ |
-| [Kimi](https://docs.cowagent.ai/models/kimi) | kimi‑k3 | ✅ | ✅ | | | | |
 | [Custom自定义](https://docs.cowagent.ai/models/custom) | 本地模型/第三方代理 | ✅ | | | | | |
 
 
