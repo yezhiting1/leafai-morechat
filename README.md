@@ -1,5 +1,4 @@
-# CowAgent docs/zh/README.md 完整简体中文（直接全选复制粘贴）
-```markdown
+# CowAgent docs
 <p align="center"><img src="https://github.com/user-attachments/assets/eca9a9ec-8534-4615-9e0f-96c5ac1d10a3" alt="CowAgent" width="420" /></p>
 
 <p align="center">
@@ -55,7 +54,6 @@
 
 CowAgent 是一套完整的 **Agent Harness**：消息经由**消息通道**流入；Agent核心结合记忆、知识库、工具与技能完成规划推理；大模型生成回复，再经由原消息通道返回。各层完全解耦，均可独立扩展。
 
-阅读更多：[架构文档](https://docs.cowagent.ai/intro/architecture)。
 
 <br/>
 **Docker：**
@@ -91,7 +89,7 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 | [LinkAI](https://docs.cowagent.ai/models/linkai) | 一键接入上百款模型 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [Custom自定义](https://docs.cowagent.ai/models/custom) | 本地模型/第三方代理 | ✅ | | | | | |
 
-> 各服务商详情查看：[模型总览](https://docs.cowagent.ai/models/index)。
+
 
 <br/>
 
@@ -115,7 +113,7 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 | [微信公众号](https://docs.cowagent.ai/channels/wechatmp) | ✅ | ✅ | | ✅ | |
 
 
-<img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent‑assets@main/screenshots/en/web‑console‑chat.png" alt="CowAgent Web Console" width="800"/>
+
 
 *Web控制台是默认通道，也是配置模型、通道、技能、记忆的统一入口。*
 
@@ -123,22 +121,10 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 
 ## 🧠 记忆与知识库
 
-**长期记忆**采用三层架构：对话上下文（短期）→日常记忆（中期）→MEMORY.md核心长期记忆。夜间自动执行**深度梦境**，把零散对话提炼为长期记忆条目与叙事日志。查看：[长期记忆](https://docs.cowagent.ai/memory/index) · [深度梦境](https://docs.cowagent.ai/memory/deep‑dream)。
+**长期记忆**采用三层架构：对话上下文（短期）→日常记忆（中期）→MEMORY.md核心长期记忆。夜间自动执行**深度梦境**，把零散对话提炼为长期记忆条目与叙事日志。
 
 **个人知识库**和时序记忆互补，按主题组织结构化知识。Agent自动从对话中提取有价值信息，维护索引与交叉引用，Web控制台支持交互式知识图谱可视化。查看：[个人知识库](https://docs.cowagent.ai/knowledge/index)。
 
-<table>
-  <tr>
-    <td width="50%">
-      <img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent‑assets@main/screenshots/en/web‑console‑memory.png" alt="Long‑term Memory" />
-      <p align="center"><em>长期记忆 · 三层架构 + 深度梦境</em></p>
-    </td>
-    <td width="50%">
-      <img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent‑assets@main/screenshots/en/web‑console‑knowledge.png" alt="Personal Knowledge Base" />
-      <p align="center"><em>知识库 · 自动维护Markdown文档库</em></p>
-    </td>
-  </tr>
-</table>
 
 <br/>
 
@@ -150,9 +136,6 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 
 **内置工具**包含文件读写(`read`/`write`/`edit`/`ls`)、终端(`bash`)、消息发送(`send`)、记忆检索(`memory`)、环境变量(`env_config`)、网页抓取(`web_fetch`)、定时任务(`scheduler`)、网页搜索(`web_search`)、视觉理解(`vision`)、浏览器自动化(`browser`)。
 
-原生支持 **MCP协议**，对接Model Context Protocol生态服务。只需一份`mcp.json`配置，支持stdio/SSE传输，热重载，零代码接入。
-
-文档：[工具总览](https://docs.cowagent.ai/tools/index) · [MCP接入](https://docs.cowagent.ai/tools/mcp)。
 
 
 ```bash
