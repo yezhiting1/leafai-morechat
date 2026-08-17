@@ -64,7 +64,7 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 | [DeepSeek](https://docs.cowagent.ai/models/deepseek) | deepseek‑v4‑flash / pro | ✅ | | | | | |
 | [GLM智谱](https://docs.cowagent.ai/models/glm) | glm‑5.2, glm‑5v‑turbo | ✅ | ✅ | | ✅ | | ✅ |
 | [Doubao豆包](https://docs.cowagent.ai/models/doubao) | doubao‑seed‑2.1 系列 | ✅ | ✅ | ✅ | | | ✅ |
-| [Custom自定义](https://docs.cowagent.ai/models/custom) | 本地模型/第三方代理 | ✅ | | | | | |
+| [自定义](https://docs.cowagent.ai/models/custom) | 本地模型/第三方代理 | ✅ | | | | | |
 
 
 
