@@ -20,16 +20,15 @@
 
 | 能力 | 说明 |
 | :--- | :--- |
-| [任务规划](https://docs.cowagent.ai/intro/architecture) | 拆解复杂任务，分步执行，循环调用工具直至目标完成 |
-| [记忆系统](https://docs.cowagent.ai/memory/index) | 三层记忆架构（上下文→日常记忆→核心记忆），自动深度梦境蒸馏，关键词+向量混合检索 |
-| [知识库](https://docs.cowagent.ai/knowledge/index) | 自动整理结构化知识生成Markdown知识库，构建可可视化浏览的知识图谱 |
-| [自我进化](https://docs.cowagent.ai/memory/self-evolution) | 自动复盘对话优化技能、跟进未完成任务、沉淀记忆知识，在日常使用中持续成长 |
-| [技能](https://docs.cowagent.ai/skills/index) | 从技能市场、GitHub一键安装，也可以通过对话自然语言创建自定义技能 |
-| [工具集](https://docs.cowagent.ai/tools/index) | 内置文件读写、终端、浏览器、定时任务、记忆检索、网页搜索等十多种工具，原生支持MCP协议 |
-| [消息通道](https://docs.cowagent.ai/channels/index) | 支持网页、微信、飞书、钉钉、企业微信、QQ、公众号、Telegram、Slack |
+| [任务规划] | 拆解复杂任务，分步执行，循环调用工具直至目标完成 |
+| [记忆系统]| 三层记忆架构（上下文→日常记忆→核心记忆），自动深度梦境蒸馏，关键词+向量混合检索 |
+| [知识库]| 自动整理结构化知识生成Markdown知识库，构建可可视化浏览的知识图谱 |
+| [自我进化] | 自动复盘对话优化技能、跟进未完成任务、沉淀记忆知识，在日常使用中持续成长 |
+| [技能]| 从技能市场、GitHub一键安装，也可以通过对话自然语言创建自定义技能 |
+| [工具集]| 内置文件读写、终端、浏览器、定时任务、记忆检索、网页搜索等十多种工具，原生支持MCP协议 |
 | 多模态 | 完整支持文本、图片、语音、文件的识别、生成与消息分发 |
-| [大模型](https://docs.cowagent.ai/models/index) | Claude、GPT、Gemini、DeepSeek、通义千问、GLM、Kimi、MiniMax、豆包等，网页控制台一键切换模型厂商 |
-| [部署方式](https://docs.cowagent.ai/guide/quick-start) | Docker部署 |
+| [大模型] |GPT、DeepSeek、GLM等，网页控制台一键切换模型厂商 |
+| [部署方式]| Docker部署 |
 
 <br/>
 
