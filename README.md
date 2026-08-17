@@ -4,7 +4,7 @@
 - **🧠 Agent基础设施** — 统一大模型、知识库、数据库、技能、工作流，开箱即用组件扩展CowAgent能力
 
 
-<br/>
+<!-- <br/>
 
 ## 🎬 演示
 
@@ -12,7 +12,7 @@
   <video src="https://github.com/user-attachments/assets/8625a19f-615c-4343-8be8-3707ce4d4d4e" controls muted playsinline width="720">
     你的浏览器不支持播放视频。
   </video>
-</p>
+</p> -->
 
 <br/>
 
