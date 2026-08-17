@@ -68,10 +68,6 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 | [GLM智谱](https://docs.cowagent.ai/models/glm) | glm‑5.2, glm‑5v‑turbo | ✅ | ✅ | | ✅ | | ✅ |
 | [Doubao豆包](https://docs.cowagent.ai/models/doubao) | doubao‑seed‑2.1 系列 | ✅ | ✅ | ✅ | | | ✅ |
 | [Kimi](https://docs.cowagent.ai/models/kimi) | kimi‑k3 | ✅ | ✅ | | | | |
-| [MiniMax](https://docs.cowagent.ai/models/minimax) | MiniMax‑M3 | ✅ | ✅ | ✅ | | ✅ | |
-| [ERNIE文心](https://docs.cowagent.ai/models/qianfan) | ernie‑5.1 | ✅ | ✅ | | | | |
-| [MiMo](https://docs.cowagent.ai/models/mimo) | mimo‑v2.5 / pro | ✅ | ✅ | | | ✅ | |
-| [LinkAI](https://docs.cowagent.ai/models/linkai) | 一键接入上百款模型 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [Custom自定义](https://docs.cowagent.ai/models/custom) | 本地模型/第三方代理 | ✅ | | | | | |
 
 
@@ -85,22 +81,6 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 | 通道 | 文本 | 图片 | 文件 | 语音 | 群聊 |
 | --- | :-: | :-: | :-: | :-: | :-: |
 | [Web控制台](https://docs.cowagent.ai/channels/web)（默认） | ✅ | ✅ | ✅ | ✅ | |
-| [Telegram](https://docs.cowagent.ai/channels/telegram) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [Slack](https://docs.cowagent.ai/channels/slack) | ✅ | ✅ | ✅ | | ✅ |
-| [Discord](https://docs.cowagent.ai/channels/discord) | ✅ | ✅ | ✅ | | ✅ |
-| [微信](https://docs.cowagent.ai/channels/weixin) | ✅ | ✅ | ✅ | ✅ | |
-| [飞书](https://docs.cowagent.ai/channels/feishu) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [钉钉](https://docs.cowagent.ai/channels/dingtalk) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [企业微信机器人](https://docs.cowagent.ai/channels/wecom‑bot) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [QQ](https://docs.cowagent.ai/channels/qq) | ✅ | ✅ | ✅ | | ✅ |
-| [企业微信应用](https://docs.cowagent.ai/channels/wecom) | ✅ | ✅ | ✅ | ✅ | |
-| [微信客服](https://docs.cowagent.ai/channels/wechat‑kf) | ✅ | ✅ | ✅ | ✅ | |
-| [微信公众号](https://docs.cowagent.ai/channels/wechatmp) | ✅ | ✅ | | ✅ | |
-
-
-
-
-*Web控制台是默认通道，也是配置模型、通道、技能、记忆的统一入口。*
 
 <br/>
 
