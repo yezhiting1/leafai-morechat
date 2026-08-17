@@ -34,8 +34,6 @@
 
 ## 🏗️ 架构
 
-<img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent-assets@main/architecture/en/architecture.png" alt="CowAgent Architecture" width="750"/>
-
 CowAgent 是一套完整的 **Agent Harness**：消息经由**消息通道**流入；Agent核心结合记忆、知识库、工具与技能完成规划推理；大模型生成回复，再经由原消息通道返回。各层完全解耦，均可独立扩展。
 
 
@@ -84,7 +82,7 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 
 **长期记忆**采用三层架构：对话上下文（短期）→日常记忆（中期）→MEMORY.md核心长期记忆。夜间自动执行**深度梦境**，把零散对话提炼为长期记忆条目与叙事日志。
 
-**个人知识库**和时序记忆互补，按主题组织结构化知识。Agent自动从对话中提取有价值信息，维护索引与交叉引用，Web控制台支持交互式知识图谱可视化。查看：[个人知识库](https://docs.cowagent.ai/knowledge/index)。
+**个人知识库**和时序记忆互补，按主题组织结构化知识。Agent自动从对话中提取有价值信息，维护索引与交叉引用，Web控制台支持交互式知识图谱可视化。
 
 
 <br/>
@@ -104,8 +102,6 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 /skill search <关键词>        # 搜索技能市场
 /skill install <名称>          # 一键安装技能
 ```
-
-文档：[技能总览](https://docs.cowagent.ai/skills/index) · [创建技能](https://docs.cowagent.ai/skills/create)。
 
 <br/>
 
