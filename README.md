@@ -45,9 +45,7 @@ curl -O https://cdn.link-ai.tech/code/cow/docker-compose.yml
 docker compose up -d
 ```
 
-启动完成后，浏览器打开 `http://localhost:9899` 进入 **Web控制台**，在这里和Agent对话、配置模型、接入消息通道、安装技能。
 
-> 服务器部署：在 `config.json` 将 `web_host` 设置为 `0.0.0.0`，外部才可访问；务必设置 `web_password` 做访问保护，防火墙开放9899端口。
 
 <br/>
 
@@ -112,6 +110,23 @@ CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生�
 - **[AgentMesh](https://github.com/MinimalFuture/AgentMesh)** — 开源多智能体框架，通过多Agent协作解决复杂任务
 <br/>
 
+运行后默认启动 Web 控制台，打开 http://localhost:9899`，和Agent对话、配置模型、接入消息通道、安装技能。
+
+服务器部署：在 `config.json` 将 `web_host` 设置为 `0.0.0.0`，外部才可访问；务必设置 `web_password` 做访问保护，防火墙开放9899端口。
+服务器部署需要公网访问控制台时，请在 config.json 中将 web_host 设为 0.0.0.0（默认仅监听 127.0.0.1 本机访问），同时强烈建议设置 web_password 启用鉴权。然后通过 http://<server-ip>:9899 访问，并确保防火墙/安全组放行 9899 端口。
+​
+管理命令
+| 命令 | 说明 |
+|------|------|
+| `cow start` | 启动服务 |
+| `cow stop` | 停止服务 |
+| `cow restart` | 重启服务 |
+| `cow status` | 查看运行状态 |
+| `cow logs` | 查看实时日志 |
+| `cow update` | 更新代码并重启 |
+| `cow install-browser` | 安装浏览器工具依赖 |
+更多命令和用法参考 命令文档。
+如果 cow 命令不可用，也可以使用 ./run.sh <命令>（Linux/macOS）或 .\scripts\run.ps1 <命令>（Windows）作为替代，功能等效。
 ## ⚠️ 免责声明
 
 1. 本项目基于 [MIT协议](/LICENSE)开源，仅用于技术研究学习。使用者需遵守所在地区法律法规，项目维护者不对使用产生的任何后果承担责任。
