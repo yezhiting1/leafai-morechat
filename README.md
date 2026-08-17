@@ -1,3 +1,5 @@
+# CowAgent docs/zh/README.md 完整简体中文（直接全选复制粘贴）
+```markdown
 <p align="center"><img src="https://github.com/user-attachments/assets/eca9a9ec-8534-4615-9e0f-96c5ac1d10a3" alt="CowAgent" width="420" /></p>
 
 <p align="center">
@@ -10,281 +12,266 @@
 </p>
 
 <p align="center">
-  <a href="https://trendshift.io/repositories/25763" target="_blank"><img src="https://trendshift.io/api/badge/repositories/25763" alt="zhayujie%2FCowAgent | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+  [<b>中文</b>] | [<a href="../../README.md">English</a>] | [<a href="README-Hant.md">繁體中文</a>] | [<a href="../ja/README.md">日本語</a>]
 </p>
 
-<p align="center">
-  [<a href="docs/zh/README.md">中文</a>] | [English] | [<a href="docs/zh/README-Hant.md">繁體中文</a>] | [<a href="docs/ja/README.md">日本語</a>]
-</p>
+**CowAgent** 是开源超级AI助手，能够主动规划任务、操控电脑与外部服务、创建运行技能、搭建个人知识库与长期记忆，通过自我进化伴随你一同成长，是 Agent Harness 工程的参考实现。
 
-**CowAgent** is an open-source super AI assistant that proactively plans tasks, controls your computer and external services, creates and runs Skills, builds a personal knowledge base and long-term memory, and grows alongside you through self-evolution — a reference implementation of Agent Harness engineering.
-
-CowAgent is lightweight, easy to deploy, and built to extend. Plug in any major LLM provider and run it 24/7 on a personal computer or server, across the web and all major IM platforms.
+CowAgent 轻量易部署，扩展性强。可接入各大主流大模型，在个人电脑或服务器7×24小时运行，支持网页以及各类主流即时通讯平台。
 
 <p align="center">
-  <a href="https://cowagent.ai/">🌐 Website</a> &nbsp;·&nbsp;
-  <a href="https://docs.cowagent.ai/intro/index">📖 Docs</a> &nbsp;·&nbsp;
-  <a href="https://docs.cowagent.ai/guide/quick-start">🚀 Quick Start</a> &nbsp;·&nbsp;
-  <a href="https://skills.cowagent.ai/">🧩 Skill Hub</a> &nbsp;·&nbsp;
-  <a href="https://cowagent.ai/download/">💻 Download</a> &nbsp;·&nbsp;
-  <a href="https://link-ai.tech/cowagent/create">☁️ Try Online</a>
+  <a href="https://cowagent.ai/">🌐 官网</a> &nbsp;·&nbsp;
+  <a href="https://docs.cowagent.ai/intro/index">📖 文档</a> &nbsp;·&nbsp;
+  <a href="https://docs.cowagent.ai/guide/quick-start">🚀 快速开始</a> &nbsp;·&nbsp;
+  <a href="https://skills.cowagent.ai/">🧩 技能市场</a> &nbsp;·&nbsp;
+  <a href="https://cowagent.ai/download/">💻 客户端下载</a> &nbsp;·&nbsp;
+  <a href="https://link-ai.tech/cowagent/create">☁️ 在线体验</a>
 </p>
 
 <br/>
 
-## 🎬 Demo
+## 🎬 演示
 
 <p align="center">
   <video src="https://github.com/user-attachments/assets/8625a19f-615c-4343-8be8-3707ce4d4d4e" controls muted playsinline width="720">
-    Your browser can't play this video.
-    <a href="https://cowagent.ai/">Watch the demo on our website →</a>
+    你的浏览器不支持播放视频。
+    <a href="https://cowagent.ai/">前往官网观看演示 →</a>
   </video>
 </p>
 
 <br/>
 
-## 🌟 Highlights
+## 🌟 核心特性
 
-| Capability | Description |
+| 能力 | 说明 |
 | :--- | :--- |
-| [Planning](https://docs.cowagent.ai/intro/architecture) | Decomposes complex tasks and executes them step by step, looping over tools until the goal is reached |
-| [Memory](https://docs.cowagent.ai/memory/index) | Three-tier architecture (context → daily → core), automatic Deep Dream distillation, hybrid keyword + vector retrieval |
-| [Knowledge](https://docs.cowagent.ai/knowledge/index) | Auto-curates structured knowledge into a Markdown wiki, builds an evolving knowledge graph with visual browsing |
-| [Evolution](https://docs.cowagent.ai/memory/self-evolution) | Self-Evolution reviews conversations automatically to improve skills, follow up on unfinished tasks, and consolidate memory and knowledge, growing through everyday use |
-| [Skills](https://docs.cowagent.ai/skills/index) | One-click install from [Skill Hub](https://skills.cowagent.ai/), GitHub, ClawHub; or create custom skills via natural-language conversation |
-| [Tools](https://docs.cowagent.ai/tools/index) | Built-in file I/O, terminal, browser, scheduler, memory retrieval, web search, and 10+ more tools — with native MCP integration |
-| [Channels](https://docs.cowagent.ai/channels/index) | Integrates with Web, WeChat, Feishu, DingTalk, WeCom, QQ, Official Accounts, Telegram, and Slack |
-| Multimodal | First-class support for text, images, voice, and files — recognition, generation, and delivery |
-| [Models](https://docs.cowagent.ai/models/index) | Claude, GPT, Gemini, DeepSeek, Qwen, GLM, Kimi, MiniMax, Doubao, and more — swap providers from the Web console with one click |
-| [Deploy](https://docs.cowagent.ai/guide/quick-start) | One-line installer, unified Web console, multiple deployment modes (local, Docker, server) |
+| [任务规划](https://docs.cowagent.ai/intro/architecture) | 拆解复杂任务，分步执行，循环调用工具直至目标完成 |
+| [记忆系统](https://docs.cowagent.ai/memory/index) | 三层记忆架构（上下文→日常记忆→核心记忆），自动深度梦境蒸馏，关键词+向量混合检索 |
+| [知识库](https://docs.cowagent.ai/knowledge/index) | 自动整理结构化知识生成Markdown知识库，构建可可视化浏览的知识图谱 |
+| [自我进化](https://docs.cowagent.ai/memory/self-evolution) | 自动复盘对话优化技能、跟进未完成任务、沉淀记忆知识，在日常使用中持续成长 |
+| [技能](https://docs.cowagent.ai/skills/index) | 从技能市场、GitHub一键安装，也可以通过对话自然语言创建自定义技能 |
+| [工具集](https://docs.cowagent.ai/tools/index) | 内置文件读写、终端、浏览器、定时任务、记忆检索、网页搜索等十多种工具，原生支持MCP协议 |
+| [消息通道](https://docs.cowagent.ai/channels/index) | 支持网页、微信、飞书、钉钉、企业微信、QQ、公众号、Telegram、Slack |
+| 多模态 | 完整支持文本、图片、语音、文件的识别、生成与消息分发 |
+| [大模型](https://docs.cowagent.ai/models/index) | Claude、GPT、Gemini、DeepSeek、通义千问、GLM、Kimi、MiniMax、豆包等，网页控制台一键切换模型厂商 |
+| [部署方式](https://docs.cowagent.ai/guide/quick-start) | 一行命令安装，统一Web管理面板，支持本地、Docker、服务器多种部署模式 |
 
 <br/>
 
-## 🏗️ Architecture
+## 🏗️ 架构
 
 <img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent-assets@main/architecture/en/architecture.png" alt="CowAgent Architecture" width="750"/>
 
-CowAgent is a complete **Agent Harness**: messages flow in through **Channels**; the **Agent Core** plans and reasons over memory, knowledge, and the available tools and skills; **Models** generate the response, which is sent back through the originating channel. Every layer is decoupled and independently extensible.
+CowAgent 是一套完整的 **Agent Harness**：消息经由**消息通道**流入；Agent核心结合记忆、知识库、工具与技能完成规划推理；大模型生成回复，再经由原消息通道返回。各层完全解耦，均可独立扩展。
 
-Read more in [Architecture](https://docs.cowagent.ai/intro/architecture).
+阅读更多：[架构文档](https://docs.cowagent.ai/intro/architecture)。
 
 <br/>
 
-## 🚀 Quick Start
+## 🚀 快速开始
 
-A one-line installer takes care of dependencies, configuration, and startup:
+一行安装脚本自动处理依赖、配置并启动服务：
 
-**Linux / macOS:**
+**Linux / macOS：**
 
 ```bash
 bash <(curl -fsSL https://cdn.link-ai.tech/code/cow/run.sh)
 ```
 
-**Windows (PowerShell):**
+**Windows (PowerShell)：**
 
 ```powershell
 irm https://cdn.link-ai.tech/code/cow/run.ps1 | iex
 ```
 
-**Docker:**
+**Docker：**
 
 ```bash
 curl -O https://cdn.link-ai.tech/code/cow/docker-compose.yml
 docker compose up -d
 ```
 
-Once started, open `http://localhost:9899` to access the **Web console** — your one-stop hub to chat with the Agent, configure models, connect channels, and install skills.
+启动完成后，浏览器打开 `http://localhost:9899` 进入 **Web控制台**，在这里和Agent对话、配置模型、接入消息通道、安装技能。
 
-> Deploying on a server? Set `web_host` to `0.0.0.0` in `config.json` to make the console reachable from outside, and set `web_password` to protect it. Don't forget to open port `9899` in your firewall or security group.
+> 服务器部署：在 `config.json` 将 `web_host` 设置为 `0.0.0.0`，外部才可访问；务必设置 `web_password` 做访问保护，防火墙开放9899端口。
 
-> 📖 Detailed guides: [Quick Start](https://docs.cowagent.ai/guide/quick-start) · [Install from Source](https://docs.cowagent.ai/guide/manual-install) · [Upgrade](https://docs.cowagent.ai/guide/upgrade)
+> 📖 详细教程：[快速开始](https://docs.cowagent.ai/guide/quick-start) · [源码安装](https://docs.cowagent.ai/guide/manual-install) · [版本升级](https://docs.cowagent.ai/guide/upgrade)
 
-After installation, manage the service with the [cow CLI](https://docs.cowagent.ai/cli/index):
+安装完成后使用 cow CLI 管理服务：
 
 ```bash
-cow start | stop | restart        # service control
-cow status | logs                  # status and logs
-cow update                         # pull latest code and restart
-cow skill install <name>           # install a skill
-cow install-browser                # install browser automation
+cow start | stop | restart        # 服务启停
+cow status | logs                  # 查看状态与日志
+cow update                         # 更新代码并重启
+cow skill install <name>           # 安装技能
+cow install-browser                # 安装浏览器自动化组件
 ```
 
-> 💻 Desktop client: download the **[CowAgent Desktop client](https://cowagent.ai/download/)** (macOS / Windows) — the backend is bundled, ready to use out of the box.
+> 💻 桌面客户端：下载 **[CowAgent桌面客户端](https://cowagent.ai/download/)**（macOS / Windows），内置后端，开箱即用。
 
 <br/>
 
-## 🤖 Models
+## 🤖 大模型
 
-CowAgent supports all mainstream LLM providers. **Chat, vision, image generation, ASR/TTS, and embeddings** can each be routed to a different vendor. Providers are configured directly in the Web console — no manual file editing required.
+CowAgent 支持几乎所有主流大模型厂商。聊天、视觉、图片生成、语音识别、语音合成、向量嵌入可以分别配置不同服务商，直接在Web控制台界面配置，无需手动修改配置文件。
 
-| Provider | Featured Models | Chat | Vision | Image Gen | ASR | TTS | Embedding |
+| 服务商 | 代表模型 | 对话 | 视觉 | 图片生成 | ASR语音识别 | TTS语音合成 | Embedding向量 |
 | --- | --- | :-: | :-: | :-: | :-: | :-: | :-: |
-| [Claude](https://docs.cowagent.ai/models/claude) | claude-opus-5 / sonnet-5 | ✅ | ✅ | | | | |
-| [OpenAI](https://docs.cowagent.ai/models/openai) | gpt-5.6 series | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [Gemini](https://docs.cowagent.ai/models/gemini) | gemini-3.5-flash | ✅ | ✅ | ✅ | | | |
-| [DeepSeek](https://docs.cowagent.ai/models/deepseek) | deepseek-v4-flash / pro | ✅ | | | | | |
-| [Qwen](https://docs.cowagent.ai/models/qwen) | qwen3.7-plus | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [GLM](https://docs.cowagent.ai/models/glm) | glm-5.2, glm-5v-turbo | ✅ | ✅ | | ✅ | | ✅ |
-| [Doubao](https://docs.cowagent.ai/models/doubao) | doubao-seed-2.1 series | ✅ | ✅ | ✅ | | | ✅ |
-| [Kimi](https://docs.cowagent.ai/models/kimi) | kimi-k3 | ✅ | ✅ | | | | |
-| [MiniMax](https://docs.cowagent.ai/models/minimax) | MiniMax-M3 | ✅ | ✅ | ✅ | | ✅ | |
-| [ERNIE](https://docs.cowagent.ai/models/qianfan) | ernie-5.1 | ✅ | ✅ | | | | |
-| [MiMo](https://docs.cowagent.ai/models/mimo) | mimo-v2.5 / pro | ✅ | ✅ | | | ✅ | |
-| [LinkAI](https://docs.cowagent.ai/models/linkai) | One key for 100+ models | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [Custom](https://docs.cowagent.ai/models/custom) | Local models / third-party proxy | ✅ | | | | | |
+| [Claude](https://docs.cowagent.ai/models/claude) | claude‑opus‑5 / sonnet‑5 | ✅ | ✅ | | | | |
+| [OpenAI](https://docs.cowagent.ai/models/openai) | gpt‑5.6 系列 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [Gemini](https://docs.cowagent.ai/models/gemini) | gemini‑3.5‑flash | ✅ | ✅ | ✅ | | | |
+| [DeepSeek](https://docs.cowagent.ai/models/deepseek) | deepseek‑v4‑flash / pro | ✅ | | | | | |
+| [Qwen通义千问](https://docs.cowagent.ai/models/qwen) | qwen3.7‑plus | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [GLM智谱](https://docs.cowagent.ai/models/glm) | glm‑5.2, glm‑5v‑turbo | ✅ | ✅ | | ✅ | | ✅ |
+| [Doubao豆包](https://docs.cowagent.ai/models/doubao) | doubao‑seed‑2.1 系列 | ✅ | ✅ | ✅ | | | ✅ |
+| [Kimi](https://docs.cowagent.ai/models/kimi) | kimi‑k3 | ✅ | ✅ | | | | |
+| [MiniMax](https://docs.cowagent.ai/models/minimax) | MiniMax‑M3 | ✅ | ✅ | ✅ | | ✅ | |
+| [ERNIE文心](https://docs.cowagent.ai/models/qianfan) | ernie‑5.1 | ✅ | ✅ | | | | |
+| [MiMo](https://docs.cowagent.ai/models/mimo) | mimo‑v2.5 / pro | ✅ | ✅ | | | ✅ | |
+| [LinkAI](https://docs.cowagent.ai/models/linkai) | 一键接入上百款模型 | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [Custom自定义](https://docs.cowagent.ai/models/custom) | 本地模型/第三方代理 | ✅ | | | | | |
 
-> For details on each provider, see the [Models overview](https://docs.cowagent.ai/models/index).
+> 各服务商详情查看：[模型总览](https://docs.cowagent.ai/models/index)。
 
 <br/>
 
-## 💬 Channels
+## 💬 消息通道
 
-A single Agent instance can serve multiple channels in parallel. Most channels can be onboarded right from the Web console.
+单个Agent实例可同时对接多个消息通道，大部分通道直接在Web控制台即可完成配置。
 
-| Channel | Text | Image | File | Voice | Group |
+| 通道 | 文本 | 图片 | 文件 | 语音 | 群聊 |
 | --- | :-: | :-: | :-: | :-: | :-: |
-| [Web Console](https://docs.cowagent.ai/channels/web) (default) | ✅ | ✅ | ✅ | ✅ | |
+| [Web控制台](https://docs.cowagent.ai/channels/web)（默认） | ✅ | ✅ | ✅ | ✅ | |
 | [Telegram](https://docs.cowagent.ai/channels/telegram) | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [Slack](https://docs.cowagent.ai/channels/slack) | ✅ | ✅ | ✅ | | ✅ |
 | [Discord](https://docs.cowagent.ai/channels/discord) | ✅ | ✅ | ✅ | | ✅ |
-| [WeChat](https://docs.cowagent.ai/channels/weixin) | ✅ | ✅ | ✅ | ✅ | |
-| [Feishu / Lark](https://docs.cowagent.ai/channels/feishu) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [DingTalk](https://docs.cowagent.ai/channels/dingtalk) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| [WeCom Bot](https://docs.cowagent.ai/channels/wecom-bot) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [微信](https://docs.cowagent.ai/channels/weixin) | ✅ | ✅ | ✅ | ✅ | |
+| [飞书](https://docs.cowagent.ai/channels/feishu) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [钉钉](https://docs.cowagent.ai/channels/dingtalk) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [企业微信机器人](https://docs.cowagent.ai/channels/wecom‑bot) | ✅ | ✅ | ✅ | ✅ | ✅ |
 | [QQ](https://docs.cowagent.ai/channels/qq) | ✅ | ✅ | ✅ | | ✅ |
-| [WeCom App](https://docs.cowagent.ai/channels/wecom) | ✅ | ✅ | ✅ | ✅ | |
-| [WeChat Customer Service](https://docs.cowagent.ai/channels/wechat-kf) | ✅ | ✅ | ✅ | ✅ | |
-| [WeChat Official Account](https://docs.cowagent.ai/channels/wechatmp) | ✅ | ✅ | | ✅ | |
+| [企业微信应用](https://docs.cowagent.ai/channels/wecom) | ✅ | ✅ | ✅ | ✅ | |
+| [微信客服](https://docs.cowagent.ai/channels/wechat‑kf) | ✅ | ✅ | ✅ | ✅ | |
+| [微信公众号](https://docs.cowagent.ai/channels/wechatmp) | ✅ | ✅ | | ✅ | |
 
-> See the [Channels overview](https://docs.cowagent.ai/channels/index) for setup details.
+> 配置教程：[通道总览](https://docs.cowagent.ai/channels/index)。
 
-<img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent-assets@main/screenshots/en/web-console-chat.png" alt="CowAgent Web Console" width="800"/>
+<img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent‑assets@main/screenshots/en/web‑console‑chat.png" alt="CowAgent Web Console" width="800"/>
 
-*The Web console is the default channel and the unified entry point to configure models, channels, skills, memory, and more.*
+*Web控制台是默认通道，也是配置模型、通道、技能、记忆的统一入口。*
 
 <br/>
 
-## 🧠 Memory & Knowledge Base
+## 🧠 记忆与知识库
 
-**Long-term memory** uses a three-tier architecture: conversation context (short-term) → daily memory (mid-term) → MEMORY.md (long-term). A nightly **Deep Dream** pass distills scattered memories into refined long-term entries and a narrative journal. See [Long-term Memory](https://docs.cowagent.ai/memory/index) · [Deep Dream](https://docs.cowagent.ai/memory/deep-dream).
+**长期记忆**采用三层架构：对话上下文（短期）→日常记忆（中期）→MEMORY.md核心长期记忆。夜间自动执行**深度梦境**，把零散对话提炼为长期记忆条目与叙事日志。查看：[长期记忆](https://docs.cowagent.ai/memory/index) · [深度梦境](https://docs.cowagent.ai/memory/deep‑dream)。
 
-**Personal knowledge base** complements the time-ordered memory by organizing structured knowledge **by topic**. The Agent automatically curates valuable information from conversations, maintains cross-references and indexes, and the Web console offers an interactive knowledge-graph view. See [Personal Knowledge Base](https://docs.cowagent.ai/knowledge/index).
+**个人知识库**和时序记忆互补，按主题组织结构化知识。Agent自动从对话中提取有价值信息，维护索引与交叉引用，Web控制台支持交互式知识图谱可视化。查看：[个人知识库](https://docs.cowagent.ai/knowledge/index)。
 
 <table>
   <tr>
     <td width="50%">
-      <img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent-assets@main/screenshots/en/web-console-memory.png" alt="Long-term Memory" />
-      <p align="center"><em>Long-term Memory · Three-tier architecture + Deep Dream</em></p>
+      <img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent‑assets@main/screenshots/en/web‑console‑memory.png" alt="Long‑term Memory" />
+      <p align="center"><em>长期记忆 · 三层架构 + 深度梦境</em></p>
     </td>
     <td width="50%">
-      <img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent-assets@main/screenshots/en/web-console-knowledge.png" alt="Personal Knowledge Base" />
-      <p align="center"><em>Knowledge Base · Auto-curated Markdown wiki</em></p>
+      <img src="https://cdn.jsdelivr.net/gh/zhayujie/cowagent‑assets@main/screenshots/en/web‑console‑knowledge.png" alt="Personal Knowledge Base" />
+      <p align="center"><em>知识库 · 自动维护Markdown文档库</em></p>
     </td>
   </tr>
 </table>
 
 <br/>
 
-## 🔧 Tools & Skills
+## 🔧 工具与技能
 
-**Tools** are atomic capabilities the Agent uses to interact with system resources. **Skills** are higher-level workflows defined by a manifest file that compose multiple tools to accomplish complex tasks.
+**工具**是Agent操作系统资源的原子能力。**技能**是更高层级工作流，通过清单文件组合多个工具完成复杂任务。
 
-### Tool System
+### 工具系统
 
-**Built-in tools** cover file I/O (`read` / `write` / `edit` / `ls`), terminal (`bash`), file sending (`send`), memory retrieval (`memory`), environment variables (`env_config`), web fetching (`web_fetch`), scheduling (`scheduler`), web search (`web_search`), vision (`vision`), and browser automation (`browser`).
+**内置工具**包含文件读写(`read`/`write`/`edit`/`ls`)、终端(`bash`)、消息发送(`send`)、记忆检索(`memory`)、环境变量(`env_config`)、网页抓取(`web_fetch`)、定时任务(`scheduler`)、网页搜索(`web_search`)、视觉理解(`vision`)、浏览器自动化(`browser`)。
 
-**MCP protocol** integrates the open ecosystem of [Model Context Protocol](https://modelcontextprotocol.io) servers. A single `mcp.json` is enough — supports stdio / SSE transports, hot reload, and zero-code integration.
+原生支持 **MCP协议**，对接Model Context Protocol生态服务。只需一份`mcp.json`配置，支持stdio/SSE传输，热重载，零代码接入。
 
-Learn more: [Tools overview](https://docs.cowagent.ai/tools/index) · [MCP integration](https://docs.cowagent.ai/tools/mcp).
+文档：[工具总览](https://docs.cowagent.ai/tools/index) · [MCP接入](https://docs.cowagent.ai/tools/mcp)。
 
-### Skills System
+### 技能系统
 
-- **[Skill Hub](https://skills.cowagent.ai/)** — open skill marketplace: browse, search, install in one click
-- **GitHub / ClawHub / URL and more** — install skills from any source
-- **Conversational authoring** — generate custom skills through dialogue with `skill-creator`; turn any workflow or third-party API into a reusable skill
+- **[技能市场](https://skills.cowagent.ai/)** — 公开技能市场，浏览搜索一键安装
+- **GitHub / ClawHub / URL** 等多种来源安装技能
+- **对话式创建**：和skill‑creator对话直接生成自定义技能，把工作流、第三方API封装成可复用技能
 
 ```bash
-/skill list                   # list installed skills
-/skill search <keyword>        # search the marketplace
-/skill install <name>          # one-click install
+/skill list                   # 列出已安装技能
+/skill search <关键词>        # 搜索技能市场
+/skill install <名称>          # 一键安装技能
 ```
 
-Learn more: [Skills overview](https://docs.cowagent.ai/skills/index) · [Creating Skills](https://docs.cowagent.ai/skills/create).
+文档：[技能总览](https://docs.cowagent.ai/skills/index) · [创建技能](https://docs.cowagent.ai/skills/create)。
 
 <br/>
 
-## 🏷 Changelog
+## 🏷 更新日志
 
-> **2026.08.12:** [v2.1.6](https://github.com/zhayujie/CowAgent/releases/tag/2.1.6) — Sub agents for parallel task delegation, reasoning-effort settings, a pluggable memory vector backend, plus experience and security improvements.
+> **2026.08.12:** [v2.1.6](https://github.com/zhayujie/CowAgent/releases/tag/2.1.6) — 子代理并行任务委派、推理强度配置、可插拔记忆向量后端，体验与安全加固。
 
-> **2026.07.29:** [v2.1.5](https://github.com/zhayujie/CowAgent/releases/tag/2.1.5) — Workspace with file preview, core tool improvements (file search, write-time validation, background commands), context compaction (`/compact`), one-click prompt optimization, security hardening.
+> **2026.07.29:** [v2.1.5](https://github.com/zhayujie/CowAgent/releases/tag/2.1.5) — 文件预览工作区，核心工具增强，上下文压缩(`/compact`)，一键提示词优化，安全加固。
 
-> **2026.07.20:** [v2.1.4](https://github.com/zhayujie/CowAgent/releases/tag/2.1.4) — Desktop experience improvements, MCP OAuth authorization, Lark channel enhancements, scheduler improvements and data backup, new models.
+> **2026.07.20:** [v2.1.4](https://github.com/zhayujie/CowAgent/releases/tag/2.1.4) — 桌面端体验优化，MCP OAuth授权，飞书通道增强，定时任务与数据备份，新增模型。
 
-> **2026.07.08:** [v2.1.3](https://github.com/zhayujie/CowAgent/releases/tag/2.1.3) — [Desktop client](https://cowagent.ai/download/) for macOS / Windows, knowledge base document management, on-demand MCP tool retrieval, Traditional Chinese support, new models.
+> **2026.07.08:** [v2.1.3](https://github.com/zhayujie/CowAgent/releases/tag/2.1.3) — Windows/macOS桌面客户端，知识库文档管理，按需MCP工具加载，繁体中文支持，新增模型。
 
-> **2026.06.18:** [v2.1.2](https://github.com/zhayujie/CowAgent/releases/tag/2.1.2) — Web console upgrades (scheduled task management, knowledge base categories, multiple custom model providers), Self-Evolution improvements, new models (kimi-k2.7-code, glm-5.2), security hardening and refinements.
+> **2026.06.18:** [v2.1.2](https://github.com/zhayujie/CowAgent/releases/tag/2.1.2) — Web控制台升级，自我进化优化，新增模型，安全加固。
 
-> **2026.06.09:** [v2.1.1](https://github.com/zhayujie/CowAgent/releases/tag/2.1.1) — Self-Evolution, Web console upgrades (message management, parallel sessions), cross-platform MCP enhancements with concurrent calls, new models (MiniMax-M3, qwen3.7-plus), Python 3.13 support.
+> **2026.06.09:** [v2.1.1](https://github.com/zhayujie/CowAgent/releases/tag/2.1.1) — 自我进化能力，会话管理，MCP并发调用，Python3.13支持。
 
-> **2026.06.01:** [v2.1.0](https://github.com/zhayujie/CowAgent/releases/tag/2.1.0) — Internationalization, new channels (Telegram, Discord, Slack, WeChat Customer Service), CLI interaction upgrades, streamlined one-line install, MCP Streamable HTTP support, new models (claude-opus-4-8, MiMo).
+> **2026.06.01:** [v2.1.0](https://github.com/zhayujie/CowAgent/releases/tag/2.1.0) — 多语言国际化，新增多个消息通道，一键安装脚本，MCP‑HTTP支持，新增模型。
 
-Full history: [Release Notes](https://docs.cowagent.ai/releases/overview)
-
-<br/>
-
-## 🤝 Community & Support
-
-Join our [**Discord server**](https://discord.gg/9U8eA8v9TR) to ask questions, share skills, and follow development:
-
-<a href="https://discord.gg/9U8eA8v9TR"><img src="https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Join our Discord"></a>
-
-You can also [file an issue](https://github.com/zhayujie/CowAgent/issues) on GitHub, or scan the QR code below to join our WeChat group:
-
-<img width="130" src="https://img-1317903499.cos.ap-guangzhou.myqcloud.com/docs/open-community.png">
+完整历史：[版本发布文档](https://docs.cowagent.ai/releases/overview)
 
 <br/>
 
-## 🔗 Related Projects
+## 🤝 社区与支持
 
-- **[Cow Skill Hub](https://github.com/zhayujie/cow-skill-hub)** — open skill marketplace for AI Agents; works with CowAgent, OpenClaw, Claude Code, and more
-- **[bot-on-anything](https://github.com/zhayujie/bot-on-anything)** — lightweight LLM application framework with integrations for Slack, Telegram, Discord, Gmail, and more
-- **[AgentMesh](https://github.com/MinimalFuture/AgentMesh)** — open-source multi-agent framework for solving complex problems through team collaboration
+加入 [**Discord社区**](https://discord.gg/9U8eA8v9TR)提问、分享技能、跟进开发动态：
 
-<br/>
+<a href="https://discord.gg/9U8eA8v9TR"><img src="https://img.shields.io/badge/Discord‑加入社区‑5865F2?style=for‑the‑badge&logo=discord&logoColor=white" alt="Join our Discord"></a>
 
-## 🏢 Enterprise Services
+也可以在GitHub提交 [Issue](https://github.com/zhayujie/CowAgent/issues)，扫描下方二维码加入微信交流群：
 
-[**LinkAI**](https://link-ai.tech/) is an all-in-one AI Agent platform for enterprises and developers, offering managed hosting and enterprise-grade support for CowAgent:
-
-- **🚀 Zero-deployment hosted runtime** — spin up a [CowAgent online assistant](https://link-ai.tech/cowagent/create) in under a minute, no server required
-- **🧠 Agent infrastructure** — unified access to LLMs, knowledge bases, databases, skills, and workflows; plug-and-play building blocks that extend what CowAgent can do
-- **🏢 Team & enterprise features** — workspaces, role-based access, audit logs, and private deployment for production use cases
-
-For enterprise inquiries: sales@simple-future.tech or [scan the QR code](https://cdn.link-ai.tech/contact/customer-support.png) to reach our team on WeChat.
+<img width="130" src="https://img‑1317903499.cos.ap‑guangzhou.myqcloud.com/docs/open‑community.png">
 
 <br/>
 
-## 🛠️ Development & Contributing
+## 🔗 相关项目
 
-All kinds of contributions are welcome — new features, bug fixes, performance improvements, docs, or sharing your own skills on the [Skill Hub](https://skills.cowagent.ai/submit). See [CONTRIBUTING.md](/CONTRIBUTING.md) to get started, then open an Issue to discuss or send a PR directly.
-
-⭐ Star the project to show your support, and Watch → Custom → Releases to get notified of new versions. PRs and Issues are always welcome.
-
-## 🌟 Contributors
-
-![cow contributors](https://contrib.rocks/image?repo=zhayujie/CowAgent&max=1000)
+- **[Cow Skill Hub](https://github.com/zhayujie/cow‑skill‑hub)** — AI Agent公开技能市场，兼容 CowAgent、OpenClaw、Claude Code 等项目
+- **[bot‑on‑anything](https://github.com/zhayujie/bot‑on‑anything)** — 轻量LLM应用框架，大量IM平台对接能力
+- **[AgentMesh](https://github.com/MinimalFuture/AgentMesh)** — 开源多智能体框架，通过多Agent协作解决复杂任务
 
 <br/>
 
-## ⚠️ Disclaimer
+## 🏢 企业服务
 
-1. This project is licensed under the [MIT License](/LICENSE) and is intended for technical research and learning. You are responsible for complying with applicable laws and regulations in your jurisdiction; the maintainers assume no liability for any consequences arising from use of this project.
-2. **Cost & safety:** Agent mode consumes substantially more tokens than regular chat — pick models that balance quality and cost. The Agent has access to your local operating system, so only deploy it in trusted environments.
-3. CowAgent is a pure open-source project and does not participate in, authorize, or issue any cryptocurrency.
+[**LinkAI**](https://link‑ai.tech/) 面向企业与开发者的一站式AI Agent平台，提供CowAgent托管运行与企业级技术支持：
+
+- **🚀 零部署托管运行** — 一分钟创建CowAgent在线助手，无需服务器
+- **🧠 Agent基础设施** — 统一大模型、知识库、数据库、技能、工作流，开箱即用组件扩展CowAgent能力
+- **🏢 团队企业版** — 工作空间、权限管理、审计日志、私有化部署，面向生产环境
+
+商务联系：sales@simple‑future.tech 或 [扫码联系客服](https://cdn.link‑ai.tech/contact/customer‑support.png)。
 
 <br/>
 
-## 📌 Project Renaming Notice
 
-This project was previously named `chatgpt-on-wechat` and is now officially **CowAgent**. The old GitHub URL redirects automatically; existing users may optionally run `git remote set-url origin https://github.com/zhayujie/CowAgent.git` to update the local remote.
+
+
+<br/>
+
+## ⚠️ 免责声明
+
+1. 本项目基于 [MIT协议](/LICENSE)开源，仅用于技术研究学习。使用者需遵守所在地区法律法规，项目维护者不对使用产生的任何后果承担责任。
+2. **成本与安全提醒**：Agent模式Token消耗远高于普通对话，请权衡模型质量与开销。Agent拥有本地操作系统访问权限，请仅在可信环境部署
+
+<br/>
+
